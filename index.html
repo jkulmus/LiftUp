@@ -3,9 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LiftUp - Your Personalized Inspiration & Support Companion</title>
+
+    <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+      <!-- Main Stylesheet -->
+       <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+
+    <div id="home-view" class="view active">
+        <header class="app-header">
+            <h1 class="logo">LiftUp</h1>
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
+        </header>
+
+        <!-- Intro -->
+         <section class="intro">
+            <h2>How are you feeling today?</h2>
+            <p class="subtitle">Tell me what's on your mind.</p>
+         </section>
+
+         <!-- User Input -->
+          <div class="input-area">
+            <textarea 
+                id="user-input"
+                placeholder="I'm feeling overwhelmed with..."
+                aria-label="Describe how you're feeling"
+            ></textarea>
+          </div>
+
+          <!-- Primary Action -->
+           <button id="get-support-btn" class="primary-btn">
+            Show me something uplifting
+           </button>
+
+           <!-- Quick Inspiration Card -->
+            <div class="quick-inspiration card">
+                <p id="quick-quote">"You are capable of amazing things!"</p>
+            </div>
+
+            <!-- Footer Navigation -->
+             <nav class="footer-nav">
+                <button data-view="home" class="active">Home</button>
+                <button data-view="library">Library</button>
+                <button data-view="journal">Journal</button>
+                <button data-view="settings">Settings</button>
+             </nav>
+    </div>
     
 </body>
 </html>

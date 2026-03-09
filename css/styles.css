@@ -78,3 +78,56 @@ body {
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
+/* Primary Button */
+.primary-btn {
+    width: 100%;
+    padding: 0.9rem;
+    background: #4db6ac;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease, transform 0.2s ease;   
+}
+
+.primary-btn:hover {
+    background: #43a59b;
+    transform: translateY(-2px);
+}
+
+/* Quick Inspiration card */
+.card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    padding: 1.2rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Footer Navigation */
+.footer-nav {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.footer-nav button {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.footer-nav button.active,
+.footer-nav button:hover {
+    opacity: 1;
+    font-weight: 600;
+}

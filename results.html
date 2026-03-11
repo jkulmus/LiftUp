@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiftUp - Your Personalized Inspiration & Support Companion</title>
+
+    <!-- Google Fonts -->
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+      
+      <!-- Main Stylesheet -->
+       <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+    <!-- RESULTS VIEW (PLACEHOLDER) -->
+     <div id="results-view" class="view hidden">
+
+        <!-- Header -->
+         <header class="app-header">
+            <button class="back-btn" data-view="home">← Back</button>
+            <h1 class="logo">LiftUp</h1>
+         </header>
+
+         <!-- Results Content -->
+          <section class="results-content">
+
+            <!-- Quote Card -->
+             <div class="result-card card quote-card">
+                <h3 class="card-title">Your Quote</h3>
+                <p id="result-quote" class="card-text">
+                    "Your personalized quote will appear here."
+                </p>
+                <button class="save-btn" id="save-quote-btn">Save Quote</button>
+             </div>
+
+             <!-- Music Suggestion Card -->
+              <div class="result-card card music-card">
+                    <h3 class="card-title">Music for Your Mood</h3>
+
+                    <img id="album-art" class="album-art" alt="Album artwork" />
+                    <p id="song-title" class="song-title">Song Title</p>
+                    <p id="song-artist" class="song-artist">Artist Name</p>
+
+                    <audio id="song-preview" controls class="audio-preview"></audio>
+
+                    <button class="save-btn" id="save-song-btn">Save Song</button>
+              </div>
+
+              <!-- Journaling Prompt Card -->
+               <div class="result-card card prompt-card">
+                    <h3 class="card-title">Journaling Prompt</h3>
+                    <p id="journal-prompt" class="card-text">
+                        "Your journaling prompt will appear here."
+                    </p>
+                    <button class="save-btn" id="save-prompt-btn">Save Prompt</button>
+               </div>
+
+               <!-- More Results Button -->
+                <button id="more-results-btn" class="secondary-btn">
+                    Show me more like this
+                </button>
+
+          </section>
+          
+            <!-- Footer Navigation -->
+             <nav class="footer-nav">
+                <button data-view="home" class="active">Home</button>
+                <button data-view="results">Results</button>
+                <button data-view="library">Library</button>
+                <button data-view="journal">Journal</button>
+                <button data-view="settings">Settings</button>
+             </nav>
+    </div>
+
+
+</body>
+</html>

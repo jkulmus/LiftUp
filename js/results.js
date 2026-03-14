@@ -1,0 +1,1 @@
+import { getQuote, getPrompt, getSong } from './api.js';

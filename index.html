@@ -4,57 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiftUp - Your Personalized Inspiration & Support Companion</title>
-
-    <!-- Google Fonts -->
-      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-      
-      <!-- Main Stylesheet -->
-       <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css" />
 </head>
 
 <body>
 
-    <div id="home-view" class="view active">
-        <!--- Header -->
+    <main id="home-view" class="view">
         <header class="app-header">
             <h1 class="logo">LiftUp</h1>
             <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
         </header>
-
-        <!-- Intro -->
-         <section class="intro">
+        
+        <section class="intro">
             <h2>How are you feeling today?</h2>
             <p class="subtitle">Tell me what's on your mind.</p>
          </section>
-
-         <!-- User Input -->
-          <div class="input-area">
+         
+         <div class="input-area">
             <textarea 
                 id="user-input"
                 placeholder="I'm feeling overwhelmed with..."
                 aria-label="Describe how you're feeling"
             ></textarea>
           </div>
-
-          <!-- Primary Action -->
-           <button id="get-support-btn" class="primary-btn">
-            Show me something uplifting
-           </button>
-
-           <!-- Quick Inspiration Card -->
-            <div class="quick-inspiration card">
-                <p id="quick-quote">"You are capable of amazing things!"</p>
+          
+          <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
+          
+          <div class="quick-inspiration card">
+            <p id="quick-quote">"You are capable of amazing things!"</p>
             </div>
 
-            <!-- Footer Navigation -->
-             <nav class="footer-nav">
+        <nav class="footer-nav">
                 <button data-view="home" class="active">Home</button>
                 <button data-view="results">Results</button>
                 <button data-view="library">Library</button>
                 <button data-view="journal">Journal</button>
                 <button data-view="settings">Settings</button>
-             </nav>
-    </div>
-    
+        </nav>
+        </main>
+        
+        <script type="module" src="js/main.js"></script>
 </body>
 </html>

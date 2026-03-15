@@ -186,3 +186,102 @@ body {
 }
 
 
+/* Results Page */
+#results-view {
+    gap: 1.5rem;
+}
+
+.results-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.result-card {
+    padding: 1.2rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.card-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+}
+
+/* Music Card */
+.album-art {
+    width: 100%;
+    max-width: 220px;
+    border-radius: 12px;
+    margin: 0.5rem auto 1rem;
+    display: block;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.song-title {
+    font-weight: 600;
+    margin-top: 0.5rem;
+}
+
+.song-artist {
+    opacity: 0.8;
+    margin-bottom: 1rem;
+}
+
+.audio-preview {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* Library Page */
+.library-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.library-list {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    padding: 1rem;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.library-item {
+    padding: 0.7rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.library-item:last-child {
+    border-bottom: none;
+}
+
+.empty-text {
+    opacity: 0.7;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Animations*/
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

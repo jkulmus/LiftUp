@@ -1,10 +1,15 @@
 import { getQuote, getPrompts, getSong } from "./api.js";
 import { loadLibrary } from "./library.js";
+import { loadJournal, saveJournalEntry } from "./journal.js";
 
 // DOM Elements
 const homeView = document.getElementById('home-view');
 const resultsView = document.getElementById('results-view');
 const libraryView = document.getElementById("library-view");
+
+const journalView = document.getElementById("journal-view");
+const backJournalBtn = document.getElementById("back-to-home-from-journal");
+const saveJournalBtn = document.getElementById("save-journal-btn");
 
 const supportBtn = document.getElementById("get-support-btn");
 const backBtn = document.getElementById('back-to-home');
@@ -23,12 +28,17 @@ function showView(view) {
     homeView.classList.add("hidden");
     resultsView.classList.add("hidden");
     libraryView.classList.add("hidden");
+    journalView.classList.add("hidden");
 
     if (view === "home") homeView.classList.remove("hidden");
     if (view === "results") resultsView.classList.remove("hidden");
     if (view === "library") {
         libraryView.classList.remove("hidden");
         loadLibrary();
+    }
+    if (view === "journal") {
+        journalView.classList.remove("hidden");
+        loadJournal();
     }
 }
 
@@ -86,3 +96,18 @@ document.getElementById("save-prompt-btn").onclick = () => {
     const prompt = document.getElementById("journal-prompt").innerText;
     saveToLibrary("prompts", prompt);
 };
+
+saveJournalBtn.addEventListener("click", () => {
+    const mood = document.getElementById("journal-mood").value;
+    const text = document.getElementById("journal-entry").value.trim();
+
+    if (!mood || !text) return;
+
+    saveJournalEntry(mood, text);
+
+    // clear fields
+    document.getElementById("journal-entry").value = "";
+    document.getElementById("journal-mood").value = "";
+
+    loadJournal();
+});

@@ -1,12 +1,11 @@
 export async function getQuote() {
     try {
-        const res = await fetch('https://api.adviceslip.com/advice');
-        if (!res.ok) throw new Error('Network response was not ok');
+        const res = await fetch("https://api.adviceslip.com/advice");
         const data = await res.json();
         return data.slip.advice;
     } catch (err) {
         console.error("Quote Error:", err);
-        return "You are enough exactly as you are."
+        return "You are enough exactly as you are.";
     }
 }
 
@@ -21,13 +20,11 @@ export async function getPrompts() {
     }
 }
 
-/**
- * @param {string} mood
- */
+
 
 export async function getSong(mood) {
     const searchTerm = `${mood} lofi`;
-    const term = encodeURIComponent(mood + " instrumental");
+
     const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=music&limit=1`;
 
     try {

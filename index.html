@@ -28,80 +28,116 @@
                 placeholder="I'm feeling overwhelmed with..."
                 aria-label="Describe how you're feeling"
             ></textarea>
-          </div>
-          
-          <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
-          
-          <div class="quick-inspiration card">
+        </div>
+        
+        <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
+        
+        <div class="quick-inspiration card">
             <p id="quick-quote">"You are capable of amazing things!"</p>
-            </div>
+        </div>
 
         <nav class="footer-nav">
-                <button data-view="home" class="active">Home</button>
-                <button data-view="results">Results</button>
-                <button data-view="library">Library</button>
-                <button data-view="journal">Journal</button>
-                <button data-view="settings">Settings</button>
+            <button data-view="home" class="active">Home</button>
+            <button data-view="results">Results</button>
+            <button data-view="library">Library</button>
+            <button data-view="journal">Journal</button>
+            <button data-view="settings">Settings</button>
         </nav>
-        </main>
-
-        <!-- Results View -->
-         <section id="results-view" class="view-hidden">
-
-            <header class="app-header">
-                <button class="back-btn" id="back-to-home">← Back</button>
-                <h1 class="logo">LiftUp</h1>
-            </header>
+    </main>
+    
+    <!-- Results View -->
+     <section id="results-view" class="view-hidden">
+        
+        <header class="app-header">
+            <button class="back-btn" id="back-to-home">← Back</button>
+            <h1 class="logo">LiftUp</h1>
+        </header>
+        
+        <section class="results-content">
             
-            <section class="results-content">
-
-                <!-- Quote Card -->
-                 <div class="result-card card quote-card">
-                    <h3 class="card-title">Your Quote</h3>
-                    <p id="result-quote" class="card-text">
-                        "Your Personalized quote will appear here."
-                    </p>
-                    <button class="save-btn" id="save-quote-btn">Save Quote</button>
-                 </div>
-
-                 <!-- Music Suggestion Card -->
-                  <div class="result-card card music-card">
-                    <h3 class="card-title">Music for Your Mood</h3>
-
-                    <img id="album-art" class="album-art" alt="Album artwork" />
-                    <p id="song-title" class="song-title">Song Title</p>
-                    <p id="song-artist" class="song-artist">Artist Name</p>
-
-                    <audio id="song-preview" controls class="audio-preview"></audio>
-
-                    <button class="save-btn" id="save-song-btn">Save Song</button>
-                  </div>
-
-                  <!-- Journaling Prompt Card -->
-                   <div class="result-card card prompt-card">
-                        <h3 class="card-title">Journaling Prompt</h3>
-                        <p id="journal-prompt" class="card-text">
-                            "Your journaling prompt will appear here."
-                        </p>
-                        <button class="save-btn" id="save-prompt-btn">Save Prompt</button>
-                   </div>
-
-                   <!-- More Results Button -->
-                    <button id="more-results-btn" class="secondary-btn">
-                        Show me more like this
-                    </button>
+            <!-- Quote Card -->
+            <div class="result-card card quote-card">
+                <h3 class="card-title">Your Quote</h3>
+                <p id="result-quote" class="card-text">
+                    "Your Personalized quote will appear here."
+                </p>
+                <button class="save-btn" id="save-quote-btn">Save Quote</button>
+            </div>
+            
+            <!-- Music Suggestion Card -->
+            <div class="result-card card music-card">
+                <h3 class="card-title">Music for Your Mood</h3>
                 
-                </section>
+                <img id="album-art" class="album-art" alt="Album artwork" />
+                <p id="song-title" class="song-title">Song Title</p>
+                <p id="song-artist" class="song-artist">Artist Name</p>
+
+                <audio id="song-preview" controls class="audio-preview"></audio>
+
+                <button class="save-btn" id="save-song-btn">Save Song</button>
+            </div>
+            
+            <!-- Journaling Prompt Card -->
+            <div class="result-card card prompt-card">
+                <h3 class="card-title">Journaling Prompt</h3>
+                <p id="journal-prompt" class="card-text">
+                    "Your journaling prompt will appear here."
+                </p>
+                <button class="save-btn" id="save-prompt-btn">Save Prompt</button>
+            </div>
+            
+            <button id="more-results-btn" class="secondary-btn">
+                Show me more like this
+            </button>
                 
-                <nav class="footer-nav">
-                    <button data-view="home">Home</button>
-                    <button data-view="results" class="active">Results</button>
-                    <button data-view="library">Library</button>
-                    <button data-view="journal">Journal</button>
-                    <button data-view="settings">Settings</button>
-                </nav>
+        </section>
+        
+        <nav class="footer-nav">
+            <button data-view="home">Home</button>
+            <button data-view="results" class="active">Results</button>
+            <button data-view="library">Library</button>
+            <button data-view="journal">Journal</button>
+            <button data-view="settings">Settings</button>
+        </nav>
+    </section>
+    
+    <!-- Library View -->
+     <section id="library-view" class="view hidden">
+
+        <header class="app-header">
+            <button class="back-btn" id="back-to-home-from-library">← Back</button>
+            <h1 class="logo">My Library</h1>
+        </header>
+
+        <section class="library-content">
+
+            <h3 class="section-title">Saved Quotes</h3>
+            <div id="saved-quotes" class="library-list empty">
+                <p class="empty-text">No saved quotes yet.</p>
+            </div>
+
+            <h3 class="section-title">Saved Songs</h3>
+            <div id="saved-songs" class="library-list empty">
+                <p class="empty-text">No saved songs yet.</p>
+            </div>
+
+            <h3 class="section-title">Saved Prompts</h3>
+            <div id="saved-prompts" class="library-list empty">
+                <p class="empty-text">No saved prompts yet.</p>
+            </div>
+
         </section>
 
-        <script type="module" src="js/main.js"></script>
+        <nav class="footer-nav">
+            <button data-view="home">Home</button>
+            <button data-view="results">Results</button>
+            <button data-view="library" class="active">Library</button>
+            <button data-view="journal">Journal</button>
+            <button data-view="settings">Settings</button>
+        </nav>
+
+     </section>
+
+    <script type="module" src="js/main.js"></script>
 </body>
 </html>

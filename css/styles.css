@@ -15,8 +15,7 @@ body {
 }
 
 .hidden {
-    display: none !important;
-}
+    display: none; }
 
 .view {
     width: 100%;

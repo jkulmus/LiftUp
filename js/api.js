@@ -1,10 +1,10 @@
 export async function getQuote() {
     try {
-        const res = await fetch("https://api.adviceslip.com/advice");
+        const res = await fetch("https://api.advices.come/advice");
         const data = await res.json();
         return data.slip.advice;
     } catch (err) {
-        console.error("Quote Error:", err);
+
         return "You are enough exactly as you are.";
     }
 }
@@ -24,16 +24,11 @@ export async function getPrompts() {
 
 export async function getSong(mood) {
     const searchTerm = `${mood} lofi`;
-
     const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=music&limit=1`;
 
     try {
         const res = await fetch(url);
         const data = await res.json();
-
-        if (!data.results || data.results.length === 0) {
-            throw new Error("No results found");
-        }
 
         const track = data.results[0];
 
@@ -43,8 +38,7 @@ export async function getSong(mood) {
             previewUrl: track.previewUrl,
             artwork: track.artworkUrl100.replace("100x100", "400x400")
         };
-    } catch (err) {
-        console.error("iTunes Error:", err);
+    } catch {
         return {
             title: "Calm Waters",
             artist: "LiftUp Ambient",

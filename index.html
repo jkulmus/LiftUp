@@ -138,6 +138,53 @@
 
      </section>
 
+     <section id="journal-view" class="view hidden">
+
+        <header class="app-header">
+            <button class="back-btn" id="back-to-home-from-journal">← Back</button>
+            <h1 class="logo">Journal</h1>
+        </header>
+
+        <section class="journal-content">
+
+            <!-- Mood Selector -->
+             <div class="journal-card card">
+                <h3 class="section-title">How are you feeling?</h3>
+                <section id="journal-mood" class="journal-select">
+                    <option value="">Select a mood</option>
+                    <option value="😊 Happy">😊 Happy</option>
+                    <option value="😔 Sad">😔 Sad</option>
+                    <option value="😤 Stressed">😤 Stressed</option>
+                    <option value="😌 Calm">😌 Calm</option>
+                    <option value="🤔 Reflective">🤔 Reflective</option>
+                </section>
+             </div>
+
+             <!-- Entry Box -->
+            <div class="journal-card card">
+                <h3 class="section-title">Write your thoughts</h3>
+                <textarea id="journal-entry" class="journal-textarea" placeholder="Today I want to reflect on..."></textarea>
+                <button id="save-journal-btn" class="primary-btn">Save Entry</button>
+            </div>
+
+            <!-- Past Entries -->
+            <h3 class="section-title">Past Entries</h3>
+            <div id="journal-entries" class="journal-list empty">
+                <p class="empty-text">No journal entries yet.</p>
+            </div>
+
+        </section>
+
+        <nav class="footer-nav">
+            <button data-view="home">Home</button>
+            <button data-view="results">Results</button>
+            <button data-view="library">Library</button>
+            <button data-view="journal" class="active">Journal</button>
+            <button data-view="settings">Settings</button>
+        </nav>
+        
+     </section>
+
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

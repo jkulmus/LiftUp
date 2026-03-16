@@ -6,14 +6,14 @@ import { loadJournal, saveJournalEntry } from "./journal.js";
 const homeView = document.getElementById('home-view');
 const resultsView = document.getElementById('results-view');
 const libraryView = document.getElementById("library-view");
-
 const journalView = document.getElementById("journal-view");
-const backJournalBtn = document.getElementById("back-to-home-from-journal");
-const saveJournalBtn = document.getElementById("save-journal-btn");
 
 const supportBtn = document.getElementById("get-support-btn");
 const backBtn = document.getElementById('back-to-home');
 const backLibraryBtn = document.getElementById("back-to-home-from-library");
+const backJournalBtn = document.getElementById("back-to-home-from-journal");
+
+const saveJournalBtn = document.getElementById("save-journal-btn");
 const userInput = document.getElementById('user-input');
 
 // Navigation
@@ -65,12 +65,13 @@ supportBtn.addEventListener('click', async () => {
     document.getElementById("song-title").innerText = song.title;
     document.getElementById("song-artist").innerText = song.artist;
     document.getElementById("album-art").src = song.artwork;
-    document.getElementById("song-preview").src = song.preview;
+    document.getElementById("song-preview").src = song.previewUrl;
 });
 
 // Back Button
 backBtn.addEventListener("click", () => showView("home"));
 backLibraryBtn.addEventListener("click", () => showView("home"));
+backJournalBtn.addEventListener("click", () => showView("home"));
 
 // Save Functions
 function saveToLibrary(key, value) {
@@ -97,6 +98,7 @@ document.getElementById("save-prompt-btn").onclick = () => {
     saveToLibrary("prompts", prompt);
 };
 
+// Journal save
 saveJournalBtn.addEventListener("click", () => {
     const mood = document.getElementById("journal-mood").value;
     const text = document.getElementById("journal-entry").value.trim();

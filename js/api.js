@@ -1,11 +1,10 @@
 export async function getQuote() {
     try {
-        const res = await fetch("https://api.advices.come/advice");
+        const res = await fetch("https://api.adviceslip.com/advice");
         const data = await res.json();
         return data.slip.advice;
     } catch (err) {
-
-        return "You are enough exactly as you are.";
+        return "Every day may not be good, but there's something good in every day.";
     }
 }
 
@@ -16,19 +15,19 @@ export async function getPrompts() {
         const random = data[Math.floor(Math.random() * data.length)];
         return random.text;
     } catch (err) {
-        return "What is one small thing that went well today?";
+        return "What is one thing you're grateful for today?";
     }
 }
 
-
-
 export async function getSong(mood) {
     const searchTerm = `${mood} lofi`;
-    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}&media=music&limit=1`;
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}media=music&lmit=1`;
 
     try {
         const res = await fetch(url);
         const data = await res.json();
+
+        if (!data.results || data.results.length === 0) throw new Error("No results");
 
         const track = data.results[0];
 
@@ -43,7 +42,7 @@ export async function getSong(mood) {
             title: "Calm Waters",
             artist: "LiftUp Ambient",
             previewUrl: "",
-            artwork: "https://via.placeholder.com/400?text=Relaxing+Music"
+            artwork: "https://via.placeholder.come/400?text=Relaxing+Music"
         };
     }
 }

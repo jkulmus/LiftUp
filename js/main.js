@@ -45,27 +45,60 @@ function showView(view) {
 // Show Results
 supportBtn.addEventListener('click', async () => {
     const text = userInput.value.trim();
-    
-    if (!text) return;
-    
-    const vibe = text.includes("sad") || text.includes("overwhelmed")
-        ? "Lo-Fi Chill"
-        : "Inspirational";
-    
-    showView("results");
-    
-    const quote = await getQuote();
-    const prompt = await getPrompts();
-    const song = await getSong(vibe);
-    
-    // Update UI
-    document.getElementById("result-quote").innerText = `"${quote}"`;
-    document.getElementById("journal-prompt").innerText = prompt;
 
-    document.getElementById("song-title").innerText = song.title;
-    document.getElementById("song-artist").innerText = song.artist;
-    document.getElementById("album-art").src = song.artwork;
-    document.getElementById("song-preview").src = song.previewUrl;
+    if (!text) {
+        alert("Please enter how you're feeling.");
+        return;
+    }
+
+    const originalBtnText = supportBtn.innerText;
+    supportBtn.innerText = "Finding inspiration...";
+    supportBtn.disabled = true;
+
+    let vibe = "Inspirational";
+    const input = text.toLowerCase();
+
+    if (input.includes("sad") || input.includes("lonely") || input.includes("blue")) {
+        vibe = "Uplifting Acoustic";
+    } else if (input.includes("stressed") || input.includes("overwhelmed") || input.includes("anxious")) {
+        vibe = "Lo-Fi Chill";
+    } else if (input.includes("tired") || input.includes("burnout") || input.includes("exhausted")) {
+        vibe = "Nature Ambience";
+    } else if (input.includes("angry") || input.includes("frustrated")) {
+        vibe = "Calm Piano";
+    }
+
+    try {
+        const [quote, prompt, song] = await Promise.all([
+            getQuote(),
+            getPrompts(),
+            getSong(vibe)
+        ]);
+
+        showView("results");
+
+        // Update UI
+        document.getElementById("result-quote").innerText = `"${quote}"`;
+        document.getElementById("journal-prompt").innerText = prompt;
+
+        document.getElementById("song-title").innerText = song.title;
+        document.getElementById("song-artist").innerText = song.artist;
+        document.getElementById("album-art").src = song.artwork;
+        document.getElementById("song-preview").src = song.previewUrl;
+
+        const saveBtns = document.querySelectorAll('.results-content .save-btn');
+        saveBtns.forEach(btn => {
+            btn.disabled = false;
+            btn.innerText = btn.id.includes('quote') ? 'Save Quote' : (btn.id.includes('song') ? 'Save Song' : 'Save Prompt');
+            btn.style.background = "";
+        });
+    } catch (error) {
+        console.error("Error fetching inspiration:", error);
+        alert("Something went wrong. Please try again!");
+    } finally {
+        supportBtn.innerText = originalBtnText;
+        supportBtn.disabled = false;
+    }
 });
 
 // Back Button

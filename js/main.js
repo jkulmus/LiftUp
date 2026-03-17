@@ -57,20 +57,9 @@ supportBtn.addEventListener('click', async () => {
     const originalBtnText = supportBtn.innerText;
     supportBtn.innerText = "Finding inspiration...";
     supportBtn.disabled = true;
-
-    let vibe = analyzeMood(text) || "Inspirational";
+    
     const input = text.toLowerCase();
-
-    if (input.includes("sad") || input.includes("lonely") || input.includes("blue")) {
-        vibe = "Uplifting Acoustic";
-    } else if (input.includes("stressed") || input.includes("overwhelmed") || input.includes("anxious")) {
-        vibe = "Lo-Fi Chill";
-    } else if (input.includes("tired") || input.includes("burnout") || input.includes("exhausted")) {
-        vibe = "Nature Ambience";
-    } else if (input.includes("angry") || input.includes("frustrated")) {
-        vibe = "Calm Piano";
-    }
-
+    
     try {
         const [quote, prompt, song] = await Promise.all([
             getQuote(),
@@ -92,9 +81,12 @@ supportBtn.addEventListener('click', async () => {
         const saveBtns = document.querySelectorAll('.results-content .save-btn');
         saveBtns.forEach(btn => {
             btn.disabled = false;
-            btn.innerText = btn.id.includes('quote') ? 'Save Quote' : (btn.id.includes('song') ? 'Save Song' : 'Save Prompt');
             btn.style.background = "";
+            if (btn.id.includes('quote')) btn.innerText = 'Save Quote';
+            if (btn.id.includes('song')) btn.innerText = 'Save Song';
+            if (btn.id.includes('prompt')) btn.innerText = 'Save Prompt';
         });
+
     } catch (error) {
         console.error("Error fetching inspiration:", error);
         alert("Something went wrong. Please try again!");
@@ -105,9 +97,11 @@ supportBtn.addEventListener('click', async () => {
 });
 
 // Back Button
-backBtn.addEventListener("click", () => showView("home"));
-backLibraryBtn.addEventListener("click", () => showView("home"));
-backJournalBtn.addEventListener("click", () => showView("home"));
+const homeNav = () => showView("home");
+backBtn.addEventListener("click", homeNav);
+backLibraryBtn.addEventListener("click", homeNav);
+backJournalBtn.addEventListener("click", homeNav);
+backSettingsBtn.addEventListener("click", homeNav);
 
 // Save Functions
 function saveToLibrary(key, value) {
@@ -120,13 +114,13 @@ function saveToLibrary(key, value) {
     if (!isDuplicate) {
         items.push(value);
         localStorage.setItem(key, JSON.stringify(items));
-        alert("Saved to library!");
     }
 }
 
 document.getElementById("save-quote-btn").addEventListener("click", () => {
     const quote = document.getElementById("result-quote").innerText;
     saveToLibrary("quotes", quote);
+    updateSaveButton("save-quote-btn");
 });
 
 document.getElementById("save-song-btn").addEventListener("click", () => {
@@ -135,29 +129,44 @@ document.getElementById("save-song-btn").addEventListener("click", () => {
         artist: document.getElementById("song-artist").innerText
     };
     saveToLibrary("songs", song);
+    updateSaveButton("save-song-btn");
 });
 
 document.getElementById("save-prompt-btn").addEventListener("click", () => {
     const prompt = document.getElementById("journal-prompt").innerText;
     saveToLibrary("prompts", prompt);
+    updateSaveButton("save-prompt-btn");
 });
 
-// Journal save
+// Journal functions
 saveJournalBtn.addEventListener("click", () => {
     const mood = document.getElementById("journal-mood").value;
     const text = document.getElementById("journal-entry").value.trim();
 
-    if (!mood || !text) return;
+    if (!mood || !text) {
+        alert("Please select a mood and write an entry.");
+        return;
+    }
 
     saveJournalEntry(mood, text);
 
     // clear fields
     document.getElementById("journal-entry").value = "";
     document.getElementById("journal-mood").value = "";
-
     loadJournal();
 });
 
+// Reset Data
+resetDataBtn.addEventListener("click", () => {
+    const confirmed = confirm("Delete everything? This cannot be undone.");
+    if (confirmed) {
+        localStorage.clear();
+        alert("All data cleared.");
+        showView("home");
+    }
+});
+
+// UI Helper Functions
 function updateSaveButton(buttonId) {
     const btn = document.getElementById(buttonId);
     const originalText = btn.innerText;

@@ -76,27 +76,35 @@ backJournalBtn.addEventListener("click", () => showView("home"));
 // Save Functions
 function saveToLibrary(key, value) {
     const items = JSON.parse(localStorage.getItem(key)) || [];
-    items.push(value);
-    localStorage.setItem(key, JSON.stringify(items));
+
+    const isDuplicate = items.some(item =>
+        JSON.stringify(item) === JSON.stringify(value)
+    );
+
+    if (!isDuplicate) {
+        items.push(value);
+        localStorage.setItem(key, JSON.stringify(items));
+        alert("Saved to library!");
+    }
 }
 
-document.getElementById("save-quote-btn").onclick = () => {
+document.getElementById("save-quote-btn").addEventListener("click", () => {
     const quote = document.getElementById("result-quote").innerText;
     saveToLibrary("quotes", quote);
-};
+});
 
-document.getElementById("save-song-btn").onclick = () => {
+document.getElementById("save-song-btn").addEventListener("click", () => {
     const song = {
         title: document.getElementById("song-title").innerText,
         artist: document.getElementById("song-artist").innerText
     };
     saveToLibrary("songs", song);
-};
+});
 
-document.getElementById("save-prompt-btn").onclick = () => {
+document.getElementById("save-prompt-btn").addEventListener("click", () => {
     const prompt = document.getElementById("journal-prompt").innerText;
     saveToLibrary("prompts", prompt);
-};
+});
 
 // Journal save
 saveJournalBtn.addEventListener("click", () => {

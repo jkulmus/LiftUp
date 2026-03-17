@@ -8,17 +8,17 @@ const homeView = document.getElementById('home-view');
 const resultsView = document.getElementById('results-view');
 const libraryView = document.getElementById("library-view");
 const journalView = document.getElementById("journal-view");
+const settingsView = document.getElementById("settings-view");
 
 const supportBtn = document.getElementById("get-support-btn");
+const userInput = document.getElementById('user-input');
+
 const backBtn = document.getElementById('back-to-home');
 const backLibraryBtn = document.getElementById("back-to-home-from-library");
 const backJournalBtn = document.getElementById("back-to-home-from-journal");
+const backSettingsBtn = document.getElementById("back-to-home-from-settings");
 
 const saveJournalBtn = document.getElementById("save-journal-btn");
-const userInput = document.getElementById('user-input');
-
-const settingsView = document.getElementById("settings-view");
-const backSettingsBtn = document.getElementById("back-to-home-from-settings");
 const resetDataBtn = document.getElementById("reset-data-btn");
 
 // Navigation
@@ -30,11 +30,7 @@ document.querySelectorAll("[data-view]").forEach(btn => {
 });
 
 function showView(view) {
-    homeView.classList.add("hidden");
-    resultsView.classList.add("hidden");
-    libraryView.classList.add("hidden");
-    journalView.classList.add("hidden");
-    settingsView.classList.add("hidden");
+    [homeView, resultsView, libraryView, journalView, settingsView].forEach(v => v.classList.add("hidden"));
 
     if (view === "home") homeView.classList.remove("hidden");
     if (view === "results") resultsView.classList.remove("hidden");

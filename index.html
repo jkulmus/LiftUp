@@ -187,6 +187,30 @@
 
      </section>
 
+    <!-- Settings -->
+    <section id="settings-view" class="view hidden">
+        <header class="app-header">
+            <button class="back-btn" id="back-to-home-from-settings">← Back</button>
+            <h1 class="logo">Settings</h1>
+        </header>
+
+        <section class="settings-content">
+            <div class="card">
+                <h3 class="section-title">Data Management</h3>
+                <p class="subtitle">This will permanently delete all your saved quotes, songs, and journal entries.</p>
+                <button id="reset-data-btn" class="primary-btn">Reset All Data</button>
+            </div>
+        </section>
+
+        <nav class="footer-nav">
+            <button data-view="home">Home</button>
+            <button data-view="results">Results</button>
+            <button data-view="library">Library</button>
+            <button data-view="journal">Journal</button>
+            <button data-view="settings" class="active">Settings</button>
+        </nav>
+    </section>
+
     <script type="module" src="js/main.js"></script>
 </body>
 </html>

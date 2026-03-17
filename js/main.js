@@ -1,6 +1,7 @@
 import { getQuote, getPrompts, getSong } from "./api.js";
 import { loadLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
+import { analyzeMood } from "./mood.js";
 
 // DOM Elements
 const homeView = document.getElementById('home-view');
@@ -16,6 +17,10 @@ const backJournalBtn = document.getElementById("back-to-home-from-journal");
 const saveJournalBtn = document.getElementById("save-journal-btn");
 const userInput = document.getElementById('user-input');
 
+const settingsView = document.getElementById("settings-view");
+const backSettingsBtn = document.getElementById("back-to-home-from-settings");
+const resetDataBtn = document.getElementById("reset-data-btn");
+
 // Navigation
 document.querySelectorAll("[data-view]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -29,6 +34,7 @@ function showView(view) {
     resultsView.classList.add("hidden");
     libraryView.classList.add("hidden");
     journalView.classList.add("hidden");
+    settingsView.classList.add("hidden");
 
     if (view === "home") homeView.classList.remove("hidden");
     if (view === "results") resultsView.classList.remove("hidden");
@@ -40,6 +46,7 @@ function showView(view) {
         journalView.classList.remove("hidden");
         loadJournal();
     }
+    if (view === "settings") settingsView.classList.remove("hidden");
 }
 
 // Show Results
@@ -55,7 +62,7 @@ supportBtn.addEventListener('click', async () => {
     supportBtn.innerText = "Finding inspiration...";
     supportBtn.disabled = true;
 
-    let vibe = "Inspirational";
+    let vibe = analyzeMood(text) || "Inspirational";
     const input = text.toLowerCase();
 
     if (input.includes("sad") || input.includes("lonely") || input.includes("blue")) {
@@ -154,3 +161,18 @@ saveJournalBtn.addEventListener("click", () => {
 
     loadJournal();
 });
+
+function updateSaveButton(buttonId) {
+    const btn = document.getElementById(buttonId);
+    const originalText = btn.innerText;
+
+    btn.innerText = "Saved! ✓";
+    btn.style.background = "#2ecc71";
+    btn.disabled = true;
+
+    setTimeout(() => {
+        btn.innerText = originalText;
+        btn.style.background = "";
+        btn.disabled = false;
+    }), 2000;
+}

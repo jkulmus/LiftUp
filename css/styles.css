@@ -385,3 +385,13 @@ body {
 .delete-item-btn:hover {
     background: rgba(231, 76, 60, 0.2);
 }
+
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#reset-data-btn:hover {
+    background: #c0392b;
+}

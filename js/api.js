@@ -3,8 +3,8 @@ export async function getQuote() {
         const res = await fetch("https://api.adviceslip.com/advice");
         const data = await res.json();
         return data.slip.advice;
-    } catch (err) {
-        return "Every day may not be good, but there's something good in every day.";
+    } catch {
+        return "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.";
     }
 }
 
@@ -14,23 +14,17 @@ export async function getPrompts() {
         const data = await res.json();
         const random = data[Math.floor(Math.random() * data.length)];
         return random.text;
-    } catch (err) {
-        return "What is one thing you're grateful for today?";
+    } catch {
+        return "What is one thing that made you smile today?";
     }
 }
 
 export async function getSong(mood) {
-    const searchTerm = `${mood} lofi`;
-    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(searchTerm)}media=music&lmit=1`;
-
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(mood + " lofi")}&limit=1&media=music`;
     try {
         const res = await fetch(url);
         const data = await res.json();
-
-        if (!data.results || data.results.length === 0) throw new Error("No results");
-
         const track = data.results[0];
-
         return {
             title: track.trackName,
             artist: track.artistName,

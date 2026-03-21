@@ -12,23 +12,9 @@ const settingsView = document.getElementById("settings-view");
 
 const supportBtn = document.getElementById("get-support-btn");
 const userInput = document.getElementById('user-input');
-
-const backBtn = document.getElementById('back-to-home');
-const backLibraryBtn = document.getElementById("back-to-home-from-library");
-const backJournalBtn = document.getElementById("back-to-home-from-journal");
-const backSettingsBtn = document.getElementById("back-to-home-from-settings");
-
-const saveJournalBtn = document.getElementById("save-journal-btn");
 const resetDataBtn = document.getElementById("reset-data-btn");
 
 // Navigation
-document.querySelectorAll("[data-view]").forEach(btn => {
-    btn.addEventListener("click", () => {
-        const target = btn.dataset.view;
-        showView(target);
-    });
-});
-
 function showView(view) {
     [homeView, resultsView, libraryView, journalView, settingsView].forEach(v => v.classList.add("hidden"));
 
@@ -45,7 +31,17 @@ function showView(view) {
     if (view === "settings") settingsView.classList.remove("hidden");
 }
 
-// Show Results
+// Global listener for footer buttons (data-view)
+document.querySelectorAll("[data-view]").forEach(btn => {
+    btn.addEventListener("click", () => showView(btn.dataset.view));
+});
+
+// Back buttons
+document.querySelectorAll(".back-btn").forEach(btn => {
+    btn.addEventListener("click", () => showView("home"));
+});
+
+// Support Flow
 supportBtn.addEventListener('click', async () => {
     const text = userInput.value.trim();
 
@@ -58,7 +54,7 @@ supportBtn.addEventListener('click', async () => {
     supportBtn.innerText = "Finding inspiration...";
     supportBtn.disabled = true;
     
-    const input = text.toLowerCase();
+    const vibe = analyzeMood(text);
     
     try {
         const [quote, prompt, song] = await Promise.all([
@@ -72,14 +68,13 @@ supportBtn.addEventListener('click', async () => {
         // Update UI
         document.getElementById("result-quote").innerText = `"${quote}"`;
         document.getElementById("journal-prompt").innerText = prompt;
-
         document.getElementById("song-title").innerText = song.title;
         document.getElementById("song-artist").innerText = song.artist;
         document.getElementById("album-art").src = song.artwork;
         document.getElementById("song-preview").src = song.previewUrl;
 
-        const saveBtns = document.querySelectorAll('.results-content .save-btn');
-        saveBtns.forEach(btn => {
+        // Reset Save Buttons
+        document.querySelectorAll('.save-btn').forEach(btn => {
             btn.disabled = false;
             btn.style.background = "";
             if (btn.id.includes('quote')) btn.innerText = 'Save Quote';
@@ -96,21 +91,12 @@ supportBtn.addEventListener('click', async () => {
     }
 });
 
-// Back Button
-const homeNav = () => showView("home");
-backBtn.addEventListener("click", homeNav);
-backLibraryBtn.addEventListener("click", homeNav);
-backJournalBtn.addEventListener("click", homeNav);
-backSettingsBtn.addEventListener("click", homeNav);
 
-// Save Functions
+// Library Save Functions
 function saveToLibrary(key, value) {
     const items = JSON.parse(localStorage.getItem(key)) || [];
 
-    const isDuplicate = items.some(item =>
-        JSON.stringify(item) === JSON.stringify(value)
-    );
-
+    const isDuplicate = items.some(item => JSON.stringify(item) === JSON.stringify(value));
     if (!isDuplicate) {
         items.push(value);
         localStorage.setItem(key, JSON.stringify(items));
@@ -118,8 +104,7 @@ function saveToLibrary(key, value) {
 }
 
 document.getElementById("save-quote-btn").addEventListener("click", () => {
-    const quote = document.getElementById("result-quote").innerText;
-    saveToLibrary("quotes", quote);
+    saveToLibrary("quotes", document.getElementById("result-quote").innerText);
     updateSaveButton("save-quote-btn");
 });
 
@@ -133,51 +118,40 @@ document.getElementById("save-song-btn").addEventListener("click", () => {
 });
 
 document.getElementById("save-prompt-btn").addEventListener("click", () => {
-    const prompt = document.getElementById("journal-prompt").innerText;
-    saveToLibrary("prompts", prompt);
+    saveToLibrary("prompts", document.getElementById("journal-prompt").innerText);
     updateSaveButton("save-prompt-btn");
 });
 
 // Journal functions
-saveJournalBtn.addEventListener("click", () => {
+document.getElementById("save-journal-btn").addEventListener("click", () => {
     const mood = document.getElementById("journal-mood").value;
     const text = document.getElementById("journal-entry").value.trim();
-
-    if (!mood || !text) {
-        alert("Please select a mood and write an entry.");
-        return;
-    }
+    if (!mood || !text) return;
 
     saveJournalEntry(mood, text);
-
-    // clear fields
     document.getElementById("journal-entry").value = "";
     document.getElementById("journal-mood").value = "";
     loadJournal();
 });
 
-// Reset Data
+// Settings
 resetDataBtn.addEventListener("click", () => {
-    const confirmed = confirm("Delete everything? This cannot be undone.");
-    if (confirmed) {
+    if (confirm("Delete everything? This cannot be undone.")) {
         localStorage.clear();
-        alert("All data cleared.");
         showView("home");
     }
 });
 
-// UI Helper Functions
+// Helpers
 function updateSaveButton(buttonId) {
     const btn = document.getElementById(buttonId);
     const originalText = btn.innerText;
-
     btn.innerText = "Saved! ✓";
     btn.style.background = "#2ecc71";
     btn.disabled = true;
-
     setTimeout(() => {
         btn.innerText = originalText;
         btn.style.background = "";
         btn.disabled = false;
-    }), 2000;
+    }, 2000);
 }

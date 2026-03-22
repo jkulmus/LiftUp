@@ -395,3 +395,30 @@ body {
 #reset-data-btn:hover {
     background: #c0392b;
 }
+
+/*Dark Mode */
+body.dark {
+    background: linear-gradient(135deg, #1e2a38, #2c3e50);
+    color: #ecf0f1;
+}
+
+body.dark .card,
+body.dark .result-card,
+body.dark .library-list,
+body.dark .journal-list {
+    background: rgba(44, 62, 80, 0.6);
+    color: #ecf0f1;
+}
+
+body.dark .primary-btn {
+    background: #16a085;
+}
+
+body.dark .secondary-btn {
+    background-color: #16a085;
+    color: #ecf0f1;
+}
+
+body.dark .footer-nav {
+    border-top: 1px solid rgba(255,255,255,0.2);
+}

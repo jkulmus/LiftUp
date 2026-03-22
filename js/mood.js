@@ -1,42 +1,40 @@
 const MOOD_MAP = {
     'Lo-Fi Chill': [
-        'stressed', 'overwhelmed', 'anxious', 'busy', 'deadline', 'work',
-        'pressure', 'finals', 'exams', 'test', 'worry', 'panic'
+        'stressed', 'overwhelmed', 'anxious', 'busy', 'pressure','panic'
     ],
-
-    // Sad / Low Energy
     'Uplifting Acoustic': [
-        'sad', 'lonely', 'blue', 'unhappy', 'cry', 'heartbreak',
-        'miss', 'down', 'gloomy', 'disappointed'
+        'sad', 'lonely', 'unhappy', 'cry', 'down', 'depressed'
     ],
-
-    // Tired / Burnout
     'Nature Ambience': [
         'tired', 'exhausted', 'burnout', 'sleepy', 'drain', 'energy',
         'long day', 'restless', 'heavy'
     ],
-
-    // Angry / Frustrated
     'Calm Piano': [
-        'angry', 'mad', 'frustrated', 'annoyed', 'hate', 'furious',
-        'unfair', 'irritated', 'vent'
+        'angry', 'mad', 'frustrated', 'annoyed', 'irritated'
     ],
-
-    // Default / Seeking Motivation
     'Inspirational': [
-        'lazy', 'stuck', 'procrastinating', 'start', 'goal', 'dream',
-        'future', 'bored', 'nothing'
+        'lazy', 'stuck', 'unmotivated', 'bored', 'goal', 'future'
     ]
 };
 
 export function analyzeMood(text) {
     const input = text.toLowerCase();
 
-    for (const [vibe, keywords] of Object.entries(MOOD_Map)) {
-        if (keywords.some(word => input.includes(word))) {
-            return vibe;
+    let bestMatch = "Inspirational";
+    let maxMatches = 0;
+
+    for (const [vide, keywords] of Object.entries(MOOD_MAP)) {
+        let count = 0;
+
+        keywords.forEach(word => {
+            if (input.includes(word)) count++;
+        });
+
+        if (count > maxMatches) {
+            maxMatches = count;
+            bestMatch = vibe;
         }
     }
 
-    return "Inspirational";
+    return bestMatch;
 }

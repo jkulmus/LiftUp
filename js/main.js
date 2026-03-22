@@ -4,6 +4,7 @@ import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
 
 // DOM Elements
+document.addEventListener("DOMContentLoaded", () => {
 const homeView = document.getElementById('home-view');
 const resultsView = document.getElementById('results-view');
 const libraryView = document.getElementById("library-view");
@@ -155,3 +156,4 @@ function updateSaveButton(buttonId) {
         btn.disabled = false;
     }, 2000);
 }
+});

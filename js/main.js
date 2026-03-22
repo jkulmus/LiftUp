@@ -3,36 +3,61 @@ import { loadLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
 
-// DOM Elements
 document.addEventListener("DOMContentLoaded", () => {
-const homeView = document.getElementById('home-view');
-const resultsView = document.getElementById('results-view');
-const libraryView = document.getElementById("library-view");
-const journalView = document.getElementById("journal-view");
-const settingsView = document.getElementById("settings-view");
 
-const supportBtn = document.getElementById("get-support-btn");
-const userInput = document.getElementById('user-input');
-const resetDataBtn = document.getElementById("reset-data-btn");
+    // DOM Elements
+    const homeView = document.getElementById('home-view');
+    const resultsView = document.getElementById('results-view');
+    const libraryView = document.getElementById("library-view");
+    const journalView = document.getElementById("journal-view");
+    const settingsView = document.getElementById("settings-view");
+
+    const supportBtn = document.getElementById("get-support-btn");
+    const userInput = document.getElementById("user-input");
+    const resetDataBtn = document.getElementById("reset-data-btn");
+
+    // Dark Mode
+    const themeToggle = document.getElementById("theme-toggle");
+
+    themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+        localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
+    });
+
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+}
 
 // Navigation
 function showView(view) {
-    [homeView, resultsView, libraryView, journalView, settingsView].forEach(v => v.classList.add("hidden"));
+    [homeView, resultsView, libraryView, journalView, settingsView]
+        .forEach(v => v.classList.add("hidden"));
 
     if (view === "home") homeView.classList.remove("hidden");
     if (view === "results") resultsView.classList.remove("hidden");
+
     if (view === "library") {
         libraryView.classList.remove("hidden");
         loadLibrary();
     }
+
     if (view === "journal") {
         journalView.classList.remove("hidden");
         loadJournal();
     }
+
     if (view === "settings") settingsView.classList.remove("hidden");
+
+    // Active nav highlight
+    document.querySelectorAll("[data-view]").forEach(btn => {
+        btn.classList.remove("active");
+        if (btn.dataset.view === view) {
+            btn.classList.add("active");
+        }
+    });
 }
 
-// Global listener for footer buttons (data-view)
+// Footer nav buttons
 document.querySelectorAll("[data-view]").forEach(btn => {
     btn.addEventListener("click", () => showView(btn.dataset.view));
 });
@@ -54,9 +79,9 @@ supportBtn.addEventListener('click', async () => {
     const originalBtnText = supportBtn.innerText;
     supportBtn.innerText = "Finding inspiration...";
     supportBtn.disabled = true;
-    
+
     const vibe = analyzeMood(text);
-    
+
     try {
         const [quote, prompt, song] = await Promise.all([
             getQuote(),
@@ -65,16 +90,24 @@ supportBtn.addEventListener('click', async () => {
         ]);
 
         showView("results");
+        userInput.value = ""; // clear input
 
         // Update UI
-        document.getElementById("result-quote").innerText = `"${quote}"`;
+        document.getElementById("result-quote").innerText = quote;
         document.getElementById("journal-prompt").innerText = prompt;
         document.getElementById("song-title").innerText = song.title;
         document.getElementById("song-artist").innerText = song.artist;
         document.getElementById("album-art").src = song.artwork;
-        document.getElementById("song-preview").src = song.previewUrl;
 
-        // Reset Save Buttons
+        const preview = document.getElementById("song-preview");
+        if (song.previewUrl) {
+            preview.src = song.previewUrl;
+            preview.style.display = "block";
+        } else {
+            preview.style.display = "none";
+        }
+
+        // Reset save button
         document.querySelectorAll('.save-btn').forEach(btn => {
             btn.disabled = false;
             btn.style.background = "";
@@ -84,7 +117,7 @@ supportBtn.addEventListener('click', async () => {
         });
 
     } catch (error) {
-        console.error("Error fetching inspiration:", error);
+        console.error(error);
         alert("Something went wrong. Please try again!");
     } finally {
         supportBtn.innerText = originalBtnText;
@@ -92,12 +125,18 @@ supportBtn.addEventListener('click', async () => {
     }
 });
 
+// More results button
+document.getElementById("more-results-btn")
+    .addEventListener("click", () => supportBtn.click());
 
-// Library Save Functions
-function saveToLibrary(key, value) {
+// Save to Library
+function savetoLibrary(key, value) {
     const items = JSON.parse(localStorage.getItem(key)) || [];
 
-    const isDuplicate = items.some(item => JSON.stringify(item) === JSON.stringify(value));
+    const isDuplicate = items.some(item =>
+        JSON.stringify(item) === JSON.stringify(value)
+    );
+
     if (!isDuplicate) {
         items.push(value);
         localStorage.setItem(key, JSON.stringify(items));
@@ -105,7 +144,9 @@ function saveToLibrary(key, value) {
 }
 
 document.getElementById("save-quote-btn").addEventListener("click", () => {
-    saveToLibrary("quotes", document.getElementById("result-quote").innerText);
+    savetoLibrary("quotes",
+        document.getElementById("result-quote").innerText
+    );
     updateSaveButton("save-quote-btn");
 });
 
@@ -114,42 +155,53 @@ document.getElementById("save-song-btn").addEventListener("click", () => {
         title: document.getElementById("song-title").innerText,
         artist: document.getElementById("song-artist").innerText
     };
-    saveToLibrary("songs", song);
+    savetoLibrary("songs", song);
     updateSaveButton("save-song-btn");
 });
 
 document.getElementById("save-prompt-btn").addEventListener("click", () => {
-    saveToLibrary("prompts", document.getElementById("journal-prompt").innerText);
+    savetoLibrary("prompts",
+        document.getElementById("journal-prompt").innerText
+    );
     updateSaveButton("save-prompt-btn");
 });
 
-// Journal functions
+// Journal
 document.getElementById("save-journal-btn").addEventListener("click", () => {
     const mood = document.getElementById("journal-mood").value;
     const text = document.getElementById("journal-entry").value.trim();
+
     if (!mood || !text) return;
 
     saveJournalEntry(mood, text);
+
     document.getElementById("journal-entry").value = "";
     document.getElementById("journal-mood").value = "";
+
     loadJournal();
 });
 
 // Settings
 resetDataBtn.addEventListener("click", () => {
     if (confirm("Delete everything? This cannot be undone.")) {
-        localStorage.clear();
+        localStorage.removeItem("quotes");
+        localStorage.removeItem("songs");
+        localStorage.removeItem("prompts");
+        localStorage.removeItem("journal");
+
         showView("home");
     }
 });
 
-// Helpers
+// Button feedback
 function updateSaveButton(buttonId) {
     const btn = document.getElementById(buttonId);
     const originalText = btn.innerText;
+
     btn.innerText = "Saved! ✓";
     btn.style.background = "#2ecc71";
     btn.disabled = true;
+
     setTimeout(() => {
         btn.innerText = originalText;
         btn.style.background = "";

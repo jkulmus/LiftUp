@@ -1,52 +1,48 @@
 export async function getQuote() {
     try {
-        const res = await fetch("https://zenquotes.it/api/random");
+        const res = await fetch("https://api.adviceslip.com/advice", { cache: "no-cache" });
         const data = await res.json();
-        return `${data[0].q} - ${data[0].a}`;
-    } catch {
-        return "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle.";
+        return data.slip.advice;
+    } catch (err) {
+        console.error("Quote API Error:", err);
+        return "Keep pushing forward, your effort matters.";
     }
 }
 
 export async function getPrompts() {
-    const prompts = [
-        "What is one thing that made you smile today?",
-        "What are you grateful for right now?",
-        "Describe a recent challenge and how you overcame it.",
-        "What challenege are you facing and how can you grow from it?",
-        "What does your ideal future look like?",
-        "Write about a time you felt truly at peace.",
-        "What is something you're proud of?",
-        "Describe a place where you feel safe and happy.",
-    ];
-    return prompts[Math.floor(Math.random() * prompts.length)];
+    try {
+        const res = await fetch('https://type.fit.api/quotes');
+        const data = await res.json();
+        const randomQuote = data[Math.floor(Math.random() * data.length)];
+        return randomQuote.text;
+    } catch (err) {
+        console.error("Prompt API Error:", err);
+        return "Write about one thing you're looking forward to this week.";
+    }
 }
 
 export async function getSong(mood) {
-    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(mood + " music")}&limit=1&media=music`;
-
+    const url = `https://itunes.apple.com/search?term=${encodeURIComponent(mood + " lofi")}&limit=1&media=music`;
     try {
         const res = await fetch(url);
         const data = await res.json();
-
-        if (!data.results || data.results.length === 0) {
-            throw new Error("No results");
+        if (data.results.length > 0) {
+            const track = data.results[0];
+            return {
+                title: track.trackName,
+                artist: track.artistName,
+                previewUrl: track.previewUrl,
+                artwork: track.artworkUrl100.replace("100x100", "400x400")
+            };
         }
-
-        const track = data.results[0];
-
+        throw new Error("No songs found");
+    } catch (err) {
+        console.error("iTunes API Error:", err);
         return {
-            title: track.trackName,
-            artist: track.artistName,
-            previewUrl: track.previewUrl,
-            artwork: track.artworkUrl100.replace("100x100", "400x400")
-        };
-    } catch {
-        return {
-            title: "Peaceful Mind",
-            artist: "Ambient Sounds",
+            title: "Midnight City",
+            artist: "Lo-Fi Study",
             previewUrl: "",
-            artwork: "https://via.placeholder.com/400?text=Relax"
+            artwork: "https://via.placeholder.com/400?text=Relasing+Music"
         };
     }
 }

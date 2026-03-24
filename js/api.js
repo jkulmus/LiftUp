@@ -4,19 +4,17 @@ export async function getQuote() {
         const data = await res.json();
         return data.slip.advice;
     } catch (err) {
-        console.error("Quote API Error:", err);
         return "Keep pushing forward, your effort matters.";
     }
 }
 
 export async function getPrompts() {
     try {
-        const res = await fetch('https://type.fit.api/quotes');
+        const res = await fetch('https://type.fit/api/quotes');
         const data = await res.json();
         const randomQuote = data[Math.floor(Math.random() * data.length)];
         return randomQuote.text;
     } catch (err) {
-        console.error("Prompt API Error:", err);
         return "Write about one thing you're looking forward to this week.";
     }
 }
@@ -37,7 +35,6 @@ export async function getSong(mood) {
         }
         throw new Error("No songs found");
     } catch (err) {
-        console.error("iTunes API Error:", err);
         return {
             title: "Midnight City",
             artist: "Lo-Fi Study",

@@ -3,74 +3,68 @@ import { loadLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+// DOM Elements
+const homeView = document.getElementById('home-view');
+const resultsView = document.getElementById('results-view');
+const libraryView = document.getElementById("library-view");
+const journalView = document.getElementById("journal-view");
+const settingsView = document.getElementById("settings-view");
 
-    // DOM Elements
-    const homeView = document.getElementById('home-view');
-    const resultsView = document.getElementById('results-view');
-    const libraryView = document.getElementById("library-view");
-    const journalView = document.getElementById("journal-view");
-    const settingsView = document.getElementById("settings-view");
+const supportBtn = document.getElementById("get-support-btn");
+const userInput = document.getElementById("user-input");
+const resetDataBtn = document.getElementById("reset-data-btn");
+const themeToggle = document.getElementById("theme-toggle");
 
-    const supportBtn = document.getElementById("get-support-btn");
-    const userInput = document.getElementById("user-input");
-    const resetDataBtn = document.getElementById("reset-data-btn");
-
-    // Dark Mode
-    const themeToggle = document.getElementById("theme-toggle");
-
-    themeToggle.addEventListener("click", () => {
-        document.body.classList.toggle("dark");
-        localStorage.setItem("theme", document.body.classList.contains("dark") ? "dark" : "light");
-    });
-
+// Load saved theme
 if (localStorage.getItem("theme") === "dark") {
     document.body.classList.add("dark");
 }
 
+// Toggle theme on click
+themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+        "theme",
+        document.body.classList.contains("dark") ? "dark" : "light"
+    );
+});
+
 // Navigation
 function showView(view) {
     [homeView, resultsView, libraryView, journalView, settingsView]
-        .forEach(v => v.classList.add("hidden"));
-
+        .forEach(v => { if(v) v.classList.add("hidden") });
+    
     if (view === "home") homeView.classList.remove("hidden");
     if (view === "results") resultsView.classList.remove("hidden");
-
     if (view === "library") {
         libraryView.classList.remove("hidden");
         loadLibrary();
     }
-
     if (view === "journal") {
         journalView.classList.remove("hidden");
         loadJournal();
     }
-
     if (view === "settings") settingsView.classList.remove("hidden");
 
-    // Active nav highlight
+    // Nav highlight
     document.querySelectorAll("[data-view]").forEach(btn => {
         btn.classList.remove("active");
-        if (btn.dataset.view === view) {
-            btn.classList.add("active");
-        }
+        if (btn.dataset.view === view) btn.classList.add("active");
     });
 }
 
-// Footer nav buttons
+// Global Nav Listeners
 document.querySelectorAll("[data-view]").forEach(btn => {
     btn.addEventListener("click", () => showView(btn.dataset.view));
 });
 
-// Back buttons
 document.querySelectorAll(".back-btn").forEach(btn => {
     btn.addEventListener("click", () => showView("home"));
 });
 
-// Support Flow
+// Support flow
 supportBtn.addEventListener('click', async () => {
     const text = userInput.value.trim();
-
     if (!text) {
         alert("Please enter how you're feeling.");
         return;
@@ -90,7 +84,7 @@ supportBtn.addEventListener('click', async () => {
         ]);
 
         showView("results");
-        userInput.value = ""; // clear input
+        userInput.value = "";
 
         // Update UI
         document.getElementById("result-quote").innerText = quote;
@@ -107,7 +101,7 @@ supportBtn.addEventListener('click', async () => {
             preview.style.display = "none";
         }
 
-        // Reset save button
+        // Reset save buttons
         document.querySelectorAll('.save-btn').forEach(btn => {
             btn.disabled = false;
             btn.style.background = "";
@@ -115,7 +109,6 @@ supportBtn.addEventListener('click', async () => {
             if (btn.id.includes('song')) btn.innerText = 'Save Song';
             if (btn.id.includes('prompt')) btn.innerText = 'Save Prompt';
         });
-
     } catch (error) {
         console.error(error);
         alert("Something went wrong. Please try again!");
@@ -125,18 +118,10 @@ supportBtn.addEventListener('click', async () => {
     }
 });
 
-// More results button
-document.getElementById("more-results-btn")
-    .addEventListener("click", () => supportBtn.click());
-
-// Save to Library
-function savetoLibrary(key, value) {
+// Save function
+function saveToLibrary(key, value) {
     const items = JSON.parse(localStorage.getItem(key)) || [];
-
-    const isDuplicate = items.some(item =>
-        JSON.stringify(item) === JSON.stringify(value)
-    );
-
+    const isDuplicate = items.some(item => JSON.stringify(item) === JSON.stringify(value));
     if (!isDuplicate) {
         items.push(value);
         localStorage.setItem(key, JSON.stringify(items));
@@ -144,9 +129,7 @@ function savetoLibrary(key, value) {
 }
 
 document.getElementById("save-quote-btn").addEventListener("click", () => {
-    savetoLibrary("quotes",
-        document.getElementById("result-quote").innerText
-    );
+    saveToLibrary("quotes", document.getElementById("result-quote").innerText);
     updateSaveButton("save-quote-btn");
 });
 
@@ -155,14 +138,12 @@ document.getElementById("save-song-btn").addEventListener("click", () => {
         title: document.getElementById("song-title").innerText,
         artist: document.getElementById("song-artist").innerText
     };
-    savetoLibrary("songs", song);
+    saveToLibrary("songs", song);
     updateSaveButton("save-song-btn");
 });
 
 document.getElementById("save-prompt-btn").addEventListener("click", () => {
-    savetoLibrary("prompts",
-        document.getElementById("journal-prompt").innerText
-    );
+    saveToLibrary("prompts", document.getElementById("journal-prompt").innerText);
     updateSaveButton("save-prompt-btn");
 });
 
@@ -170,42 +151,30 @@ document.getElementById("save-prompt-btn").addEventListener("click", () => {
 document.getElementById("save-journal-btn").addEventListener("click", () => {
     const mood = document.getElementById("journal-mood").value;
     const text = document.getElementById("journal-entry").value.trim();
-
     if (!mood || !text) return;
-
     saveJournalEntry(mood, text);
-
     document.getElementById("journal-entry").value = "";
     document.getElementById("journal-mood").value = "";
-
     loadJournal();
 });
 
 // Settings
 resetDataBtn.addEventListener("click", () => {
     if (confirm("Delete everything? This cannot be undone.")) {
-        localStorage.removeItem("quotes");
-        localStorage.removeItem("songs");
-        localStorage.removeItem("prompts");
-        localStorage.removeItem("journal");
-
+        localStorage.clear();
         showView("home");
     }
 });
 
-// Button feedback
 function updateSaveButton(buttonId) {
     const btn = document.getElementById(buttonId);
     const originalText = btn.innerText;
-
-    btn.innerText = "Saved! ✓";
+    btn.innerText = "Saved!";
     btn.style.background = "#2ecc71";
     btn.disabled = true;
-
     setTimeout(() => {
         btn.innerText = originalText;
         btn.style.background = "";
         btn.disabled = false;
     }, 2000);
 }
-});

@@ -1,3 +1,7 @@
+function getStorage(key) {
+    return JSON.parse(localStorage.getItem(key)) || [];
+}
+
 export function loadLibrary() {
     loadSection("saved-quotes", "quotes");
     loadSection("saved-songs", "songs");
@@ -6,8 +10,9 @@ export function loadLibrary() {
 
 function loadSection(containerId, storageKey) {
     const container = document.getElementById(containerId);
-    const items = JSON.parse(localStorage.getItem(storageKey)) || [];
+    if (!container) return;
 
+    const items = getStorage(storageKey);
     container.innerHTML = "";
 
     if (items.length === 0) {
@@ -24,29 +29,27 @@ function loadSection(containerId, storageKey) {
 
         const content = document.createElement("span");
         content.classList.add("item-content");
-        content.textContent = typeof item === "string" ? item : `${item.title} - ${item.artist}`;
+        content.textContent = 
+            typeof item === "string" 
+                ? item : `${item.title} - ${item.artist}`;
 
         const delBtn = document.createElement("button");
         delBtn.classList.add("delete-item-btn");
         delBtn.innerHTML = "&times;";
-        delBtn.setAttribute("aria-label", "Delete item");
+        delBtn.title = "Delete item";
 
         delBtn.addEventListener("click", () => {
             deleteItem(storageKey, index);
         });
 
-        div.appendChild(content);
-        div.appendChild(delBtn);
+        div.append(content, delBtn);
         container.appendChild(div);
     });
 }
 
-function deleteItem(storageKey, index) {
-    const items = JSON.parse(localStorage.getItem(storageKey)) || [];
-
+function deleteItem(key, index) {
+    const items = getStorage(key);
     items.splice(index, 1);
-
-    localStorage.setItem(storageKey, JSON.stringify(items));
-
+    localStorage.setItem(key, JSON.stringify(items));
     loadLibrary();
 }

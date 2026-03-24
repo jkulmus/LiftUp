@@ -8,7 +8,7 @@ export async function getQuote() {
     }
 }
 
-export async function getPrompts() {
+export async function getPrompt() {
     try {
         const res = await fetch('https://type.fit/api/quotes');
         const data = await res.json();

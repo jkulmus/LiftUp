@@ -8,19 +8,22 @@ const MOOD_MAP = {
 
 export function analyzeMood(text) {
     const input = text.toLowerCase();
-    let bestMatch = "Inspirational";
+    let bestMatch = null;
     let maxMatches = 0;
 
     for (const [vibe, keywords] of Object.entries(MOOD_MAP)) {
         let count = 0;
-        keywords.forEach(word => {
-            if (input.includes(word)) count++;
-        });
 
+        keywords.forEach(word => {
+            const regex = new RegExp(`\\b${word}\\b`, "i");
+                if (regex.test(input)) count++;
+        });
+        
         if (count > maxMatches) {
             maxMatches = count;
             bestMatch = vibe;
         }
     }
-    return bestMatch;
+
+    return bestMatch || "Inspirational";
 }

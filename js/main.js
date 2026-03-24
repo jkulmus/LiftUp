@@ -1,4 +1,4 @@
-import { getQuote, getPrompts, getSong } from "./api.js";
+import { getQuote, getPrompt, getSong } from "./api.js";
 import { loadLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
@@ -63,7 +63,8 @@ document.querySelectorAll(".back-btn").forEach(btn => {
 });
 
 // Support flow
-supportBtn.addEventListener('click', async () => {
+if (supportBtn) {
+    supportBtn.addEventListener('click', async () => {
     const text = userInput.value.trim();
     if (!text) {
         alert("Please enter how you're feeling.");
@@ -79,7 +80,7 @@ supportBtn.addEventListener('click', async () => {
     try {
         const [quote, prompt, song] = await Promise.all([
             getQuote(),
-            getPrompts(),
+            getPrompt(),
             getSong(vibe)
         ]);
 
@@ -117,6 +118,7 @@ supportBtn.addEventListener('click', async () => {
         supportBtn.disabled = false;
     }
 });
+}
 
 // Save function
 function saveToLibrary(key, value) {

@@ -9,31 +9,30 @@
 </head>
 
 <body>
-    
+
     <!-- Home View -->
     <main id="home-view" class="view">
         <header class="app-header">
             <h1 class="logo">LiftUp</h1>
             <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
         </header>
-        
+
         <section class="intro">
             <h2>How are you feeling today?</h2>
             <p class="subtitle">Tell me what's on your mind.</p>
          </section>
-         
+
          <div class="input-area">
             <textarea 
-                id="user-input"
+                id="user-input" 
                 placeholder="I'm feeling overwhelmed with..."
-                aria-label="Describe how you're feeling"
-            ></textarea>
+                ></textarea>
         </div>
-        
+
         <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
         
-        <div class="quick-inspiration card">
-            <p id="quick-quote">"You are capable of amazing things!"</p>
+        <div class="card">
+            <p id="quick-quote">You are capable of amazing things!</p>
         </div>
 
         <nav class="footer-nav">
@@ -47,51 +46,38 @@
     
     <!-- Results View -->
      <section id="results-view" class="view hidden">
-        
+
         <header class="app-header">
             <button class="back-btn" id="back-to-home">← Back</button>
             <h1 class="logo">LiftUp</h1>
         </header>
-        
+
         <section class="results-content">
-            
-            <!-- Quote Card -->
-            <div class="result-card card quote-card">
+            <div class="result-card card">
                 <h3 class="card-title">Your Quote</h3>
-                <p id="result-quote" class="card-text">
-                    "Your personalized quote will appear here."
-                </p>
+                <p id="result-quote" class="card-text">"Your personalized quote will appear here."</p>
                 <button class="save-btn" id="save-quote-btn">Save Quote</button>
             </div>
-            
-            <!-- Music Suggestion Card -->
-            <div class="result-card card music-card">
-                <h3 class="card-title">Music for Your Mood</h3>
-                
-                <img id="album-art" class="album-art" alt="Album artwork" />
+    
+            <div class="result-card card">
+                <h3 class="card-title">Music for Your Mood</h3> 
+                <img id="album-art" class="album-art" alt="Album artwork" src="" />
                 <p id="song-title" class="song-title">Song Title</p>
                 <p id="song-artist" class="song-artist">Artist Name</p>
-
                 <audio id="song-preview" controls class="audio-preview"></audio>
-
                 <button class="save-btn" id="save-song-btn">Save Song</button>
             </div>
-            
-            <!-- Journaling Prompt Card -->
-            <div class="result-card card prompt-card">
+    
+            <div class="result-card card">
                 <h3 class="card-title">Journaling Prompt</h3>
-                <p id="journal-prompt" class="card-text">
-                    "Your journaling prompt will appear here."
-                </p>
+                <p id="journal-prompt" class="card-text">"Your journaling prompt will appear here..."</p>
                 <button class="save-btn" id="save-prompt-btn">Save Prompt</button>
-            </div>
-            
+            </div>            
             <button id="more-results-btn" class="secondary-btn">
                 Show me more like this
             </button>
-                
         </section>
-        
+
         <nav class="footer-nav">
             <button data-view="home">Home</button>
             <button data-view="results" class="active">Results</button>
@@ -101,16 +87,12 @@
         </nav>
     </section>
     
-    <!-- Library View -->
      <section id="library-view" class="view hidden">
-
         <header class="app-header">
-            <button class="back-btn" id="back-to-home-from-library">← Back</button>
             <h1 class="logo">My Library</h1>
         </header>
 
         <section class="library-content">
-
             <h3 class="section-title">Saved Quotes</h3>
             <div id="saved-quotes" class="library-list empty">
                 <p class="empty-text">No saved quotes yet.</p>
@@ -138,12 +120,8 @@
 
      </section>
 
-     <!-- Journal View -->
-
-     <section id="journal-view" class="view hidden">
-
+    <section id="journal-view" class="view hidden">
         <header class="app-header">
-            <button class="back-btn" id="back-to-home-from-journal">← Back</button>
             <h1 class="logo">Journal</h1>
         </header>
 
@@ -152,7 +130,7 @@
             <!-- Mood Selector -->
              <div class="journal-card card">
                 <h3 class="section-title">How are you feeling?</h3>
-                <select id="journal-mood" class="journal-select" title="Select a mood">
+                <select id="journal-mood" class="journal-select" title="Select your current mood">
                     <option value="">Select a mood</option>
                     <option value="😊 Happy">😊 Happy</option>
                     <option value="😔 Sad">😔 Sad</option>
@@ -172,9 +150,7 @@
             <!-- Past Entries -->
             <h3 class="section-title">Past Entries</h3>
             <div id="journal-entries" class="journal-list empty">
-                <p class="empty-text">No journal entries yet.</p>
-            </div>
-
+                </div>
         </section>
 
         <nav class="footer-nav">

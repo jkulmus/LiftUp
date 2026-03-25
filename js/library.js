@@ -2,6 +2,16 @@ function getStorage(key) {
     return JSON.parse(localStorage.getItem(key)) || [];
 }
 
+export function saveToLibrary(key, data) {
+    const items = getStorage(key);
+    const exists = items.some(i => JSON.stringify(i) === JSON.stringify(data));
+    if (exists) return alert("Already in your library!");
+
+    items.unshift(data);
+    localStorage.setItem(key, JSON.stringify(items));
+    alert("Saved!");
+}
+
 export function loadLibrary() {
     loadSection("saved-quotes", "quotes");
     loadSection("saved-songs", "songs");
@@ -29,27 +39,18 @@ function loadSection(containerId, storageKey) {
 
         const content = document.createElement("span");
         content.classList.add("item-content");
-        content.textContent = 
-            typeof item === "string" 
-                ? item : `${item.title} - ${item.artist}`;
+        content.textContent = typeof item === "string" ? item : `${item.title} - ${item.artist}`;
 
         const delBtn = document.createElement("button");
-        delBtn.classList.add("delete-item-btn");
         delBtn.innerHTML = "&times;";
-        delBtn.title = "Delete item";
-
-        delBtn.addEventListener("click", () => {
-            deleteItem(storageKey, index);
-        });
+        delBtn.className = "delete-item-btn";
+        delBtn.onclick = () => {
+            items.splice(index, 1);
+            localStorage.setItem(storageKey, JSON.stringify(items));
+            loadLibrary();
+        };
 
         div.append(content, delBtn);
         container.appendChild(div);
     });
-}
-
-function deleteItem(key, index) {
-    const items = getStorage(key);
-    items.splice(index, 1);
-    localStorage.setItem(key, JSON.stringify(items));
-    loadLibrary();
 }

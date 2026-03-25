@@ -1,1 +1,1 @@
-import { getQuote, getPrompt, getSong } from './api.js';
+import { getQuote, getPrompts, getSong } from './api.js';

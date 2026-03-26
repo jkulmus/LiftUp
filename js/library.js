@@ -42,7 +42,9 @@ function loadSection(containerId, storageKey) {
     }
 
     container.classList.remove("empty");
-    container.querySelector(".empty-text").remove();
+
+    const emptyText = container.querySelector(".empty-text");
+    if (emptyText) emptyText.remove();
 
     items.forEach((item, index) => {
         const div = document.createElement("div");

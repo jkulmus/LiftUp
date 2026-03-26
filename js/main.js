@@ -3,6 +3,8 @@ import { loadLibrary, saveToLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
 
+let currentMood= "Inspirational";
+
 document.addEventListener("DOMContentLoaded", () => {
     const supportBtn = document.getElementById("get-support-btn");
     const userInput = document.getElementById("user-input");
@@ -101,7 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // More like this button
     document.getElementById("more-results-btn").addEventListener("click", async () => {
         try {
-            const mood = analyzeMood(userInput.value || "");
 
             const [quote, prompt, song] = await Promise.all([
                 getQuote(),

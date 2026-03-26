@@ -2,7 +2,7 @@ let cachedPrompts = [];
 
 export async function getQuote() {
     try {
-        const res = await fetch("https://api.adviceslip.com/advice", { cache: "no-cache" });
+        const res = await fetch(`https://api.adviceslip.com/advice?timestamp=${Date.now()}`);
         if (!res.ok) throw new Error("Quote API failed");
 
         const data = await res.json();
@@ -50,7 +50,7 @@ export async function getSong(mood) {
 
         const data = await res.json();
         
-        if (data.results.length > 0) {
+        if (!data.results || data.results.length === 0) {
             const track = data.results[0];
 
             return {

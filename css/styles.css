@@ -322,7 +322,7 @@ textarea::placeholder {
 }
 
 /* Text inside each item */
-item.content {
+.item-content {
     flex: 1;
     font-size: 0.95rem;
 }

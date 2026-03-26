@@ -20,6 +20,7 @@ export function loadJournal() {
     }
 
     container.classList.remove("empty");
+    container.querySelector(".empty-text").remove();
 
     const fragment = document.createDocumentFragment();
 
@@ -48,7 +49,7 @@ export function loadJournal() {
 
 export function saveJournalEntry(mood, text) {
     if (!mood || !text) return;
-    
+
     const entries = getStorage("journal");
 
     const newEntry = {

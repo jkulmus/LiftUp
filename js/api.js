@@ -57,9 +57,8 @@ export async function getSong(mood) {
                 title: track.trackName,
                 artist: track.artistName,
                 previewUrl: track.previewUrl,
-                artwork: track.artworkUrl100?.replace("100x100", "400x400")
+                artwork: track.artworkUrl100.replace("100x100", "400x400")
             };
-        
         }
 
         throw new Error("No song found");

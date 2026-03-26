@@ -9,12 +9,13 @@
 </head>
 
 <body>
+    <div id="toast" class="toast hidden">Saved!</div>
 
     <!-- Home View -->
     <main id="home-view" class="view">
         <header class="app-header">
             <h1 class="logo">LiftUp</h1>
-            <button id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
+            <button type="button" id="theme-toggle" class="icon-btn" aria-label="Toggle theme">🌓</button>
         </header>
 
         <section class="intro">
@@ -23,13 +24,10 @@
          </section>
 
          <div class="input-area">
-            <textarea 
-                id="user-input" 
-                placeholder="I'm feeling overwhelmed with..."
-                ></textarea>
+            <textarea id="user-input" placeholder="I'm feeling overwhelmed with..."></textarea>
         </div>
 
-        <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
+        <button type="button" id="get-support-btn" class="primary-btn">Show me something uplifting</button>
         
         <div class="card">
             <p id="quick-quote">You are capable of amazing things!</p>
@@ -72,9 +70,7 @@
                 <p id="journal-prompt" class="card-text">"Your journaling prompt will appear here..."</p>
                 <button class="save-btn" id="save-prompt-btn">Save Prompt</button>
             </div>            
-            <button id="more-results-btn" class="secondary-btn">
-                Show me more like this
-            </button>
+            <button id="more-results-btn" class="secondary-btn">Show me more like this</button>
         </section>
 
         <nav class="footer-nav">
@@ -93,20 +89,13 @@
 
         <section class="library-content">
             <h3 class="section-title">Saved Quotes</h3>
-            <div id="saved-quotes" class="library-list empty">
-                <p class="empty-text">No saved quotes yet.</p>
-            </div>
+            <div id="saved-quotes" class="library-list empty"></div>
 
             <h3 class="section-title">Saved Songs</h3>
-            <div id="saved-songs" class="library-list empty">
-                <p class="empty-text">No saved songs yet.</p>
-            </div>
+            <div id="saved-songs" class="library-list empty"></div>
 
             <h3 class="section-title">Saved Prompts</h3>
-            <div id="saved-prompts" class="library-list empty">
-                <p class="empty-text">No saved prompts yet.</p>
-            </div>
-
+            <div id="saved-prompts" class="library-list empty"></div>
         </section>
 
         <nav class="footer-nav">
@@ -116,7 +105,6 @@
             <button data-view="journal">Journal</button>
             <button data-view="settings">Settings</button>
         </nav>
-
      </section>
 
     <section id="journal-view" class="view hidden">
@@ -125,7 +113,6 @@
         </header>
 
         <section class="journal-content">
-
             <!-- Mood Selector -->
              <div class="journal-card card">
                 <h3 class="section-title">How are you feeling?</h3>
@@ -143,13 +130,12 @@
             <div class="journal-card card">
                 <h3 class="section-title">Write your thoughts</h3>
                 <textarea id="journal-entry" class="journal-textarea" placeholder="Today I want to reflect on..."></textarea>
-                <button id="save-journal-btn" class="primary-btn">Save Entry</button>
+                <button type="button" id="save-journal-btn" class="primary-btn">Save Entry</button>
             </div>
 
             <!-- Past Entries -->
             <h3 class="section-title">Past Entries</h3>
-            <div id="journal-entries" class="journal-list empty">
-                </div>
+            <div id="journal-entries" class="journal-list empty"></div>
         </section>
 
         <nav class="footer-nav">
@@ -172,8 +158,8 @@
         <section class="settings-content">
             <div class="card">
                 <h3 class="section-title">Data Management</h3>
-                <p class="subtitle">This will permanently delete all your saved quotes, songs, and journal entries.</p>
-                <button id="reset-data-btn" class="primary-btn">Reset All Data</button>
+                <p class="subtitle">This will permanently delete all your data.</p>
+                <button type="button" id="reset-data-btn" class="primary-btn reset-btn">Reset All Data</button>
             </div>
         </section>
 

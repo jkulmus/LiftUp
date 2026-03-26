@@ -1,10 +1,8 @@
-import { cache } from "react";
-
 let cachedPrompts = [];
 
 export async function getQuote() {
     try {
-        const res = await fetch(`https://api.adviceslip.com/advice?ts=$Date.now()}`);
+        const res = await fetch(`https://api.adviceslip.com/advice?ts=${Date.now()}`);
         const data = await res.json();
         return data?.slip?.advice || "Keep going!";
     } catch {
@@ -21,7 +19,6 @@ export async function getPrompts() {
 
         const random = cachedPrompts[Math.floor(Math.random() * cachedPrompts.length)];
         return random.text;
-
     } catch {
         return "Write about something you're grateful for.";
     }
@@ -29,18 +26,17 @@ export async function getPrompts() {
 
 export async function getSong(mood) {
     const searchTerms = {
-        "Lo-Fi Chill": "lofi chill beats",
+        "Lo-Fi Chill": "lofi hip hop beats",
         "Uplifting Acoustic": "acoustic happy",
         "Nature Ambience": "nature relax sounds",
-        "Calm Piano": "calm piano",
+        "Calm Piano": "solo piano calm",
         "Inspirational": "motivational music"
     };
 
     const term = searchTerms[mood] || "lofi chill";
 
     try {
-        const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&limit=1`);
-
+        const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=1`);
         const data = await res.json();
 
         if (!data.results || data.results.length === 0) throw new Error();

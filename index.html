@@ -28,7 +28,7 @@
 
         <button id="get-support-btn" class="primary-btn">Show me something uplifting</button>
         
-        <div class="card" style="text-align: center;">
+        <div class="card quick-quote-card">
             <p id="quick-quote">You are capable of amazing things!</p>
         </div>
     </main>
@@ -37,7 +37,7 @@
         <header class="app-header">
             <button class="back-btn" id="back-to-home">←</button>
             <h1 class="logo">For You</h1>
-            <div style="width: 24px;"></div>
+            <div class="spacer"></div>
         </header>
 
         <div class="result-card">
@@ -88,7 +88,8 @@
         
         <div class="card journal-input-card">
             <h3 class="card-title">How are you?</h3>
-            <select id="journal-mood" class="journal-select">
+            <label for="journal-mood" class="visually-hidden">Select your mood</label>
+            <select id="journal-mood" class="journal-select" title="Select your mood">
                 <option value="">Select a vibe...</option>
                 <option value="😊 Happy">😊 Happy</option>
                 <option value="😔 Low">😔 Low</option>
@@ -110,8 +111,8 @@
         </header>
         <div class="card">
             <h3 class="section-label">Data Management</h3>
-            <p class="subtitle" style="margin-bottom: 1rem;">This will permanently delete all save items.</p>
-            <button type="button" id="reset-data-btn" class="primary-btn" style="background: #e74c3c">Reset All Data</button>
+            <p class="subtitle data-management-text">This will permanently delete all save items.</p>
+            <button type="button" id="reset-data-btn" class="primary-btn reset-btn">Reset All Data</button>
         </div>
     </section>
 

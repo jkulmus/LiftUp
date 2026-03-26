@@ -59,10 +59,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // UPDATE RESULTS
     function updateResults(quote, prompt, song) {
-        resultQuote.textContent = quote;
-        journalPrompt.textContent = prompt;
-        songTitle.textContent = song.title;
-        songArtist.textContent = song.artist;
+        if (resultQuote) resultQuote.textContent = quote;
+        if (journalPrompt) journalPrompt.textContent = prompt;
+        if (songTitle) songTitle.textContent = song.title;
+        if (songArtist) songArtist.textContent = song.artist;
 
         if (albumArt) albumArt.src = song.artwork;
 
@@ -105,12 +105,12 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Something went wrong.");
         } finally {
             supportBtn.disabled = false;
-            supportBtn.innerText = "Show me something uplifting"
+            supportBtn.innerText = "Show me something uplifting";
         }
     });
 
     // MORE RESULTS
-    document.getElementById("more-results-btn")?.addEventListener("click", async () => {
+    document.getElementById("more-results-btn").addEventListener("click", async () => {
         try {
             const [quote, prompt, song] = await Promise.all([
                 getQuote(),
@@ -126,12 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // SAVE BUTTONS
-    document.getElementById("save-quote-btn")?.addEventListener("click", () => {
+    document.getElementById("save-quote-btn").addEventListener("click", () => {
         const quote = resultQuote.textContent.trim();
-        if (quote) saveToLibrary("quote", quote);
+        if (quote) saveToLibrary("quotes", quote);
     });
 
-    document.getElementById("save-song-btn")?.addEventListener("click", () => {
+    document.getElementById("save-song-btn").addEventListener("click", () => {
         const title = songTitle.textContent.trim();
         const artist = songArtist.textContent.trim();
         if (title && artist) {
@@ -139,24 +139,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    document.getElementById("save-prompt-btn")?.addEventListener("click", () => {
+    document.getElementById("save-prompt-btn").addEventListener("click", () => {
         const prompt = journalPrompt.textContent.trim();
         if (prompt) saveToLibrary("prompts", prompt);
     });
 
     // JOURNAL
-    document.getElementById("save-journal-btn")?.addEventListener("click", () => {
+    document.getElementById("save-journal-btn").addEventListener("click", () => {
         const mood = document.getElementById("journal-mood").value;
         const text = document.getElementById("journal-entry").value.trim();
 
-        if (!mood || !text);
+        if (!mood || !text) {
+            alert("Please select a mood and write something.");
+            return;
+        }
+
+        saveJournalEntry(mood, text);
         loadJournal();
 
         document.getElementById("journal-entry").value = "";
     });
 
     //RESET DATA
-    document.getElementById("reset-data-btn")?.addEventListener("click", () => {
+    document.getElementById("reset-data-btn").addEventListener("click", () => {
         if (!confirm("Are you sure? This cannot be undone.")) return;
 
         ["quotes", "songs", "prompts", "journal"].forEach(key => {

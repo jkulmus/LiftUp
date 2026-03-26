@@ -59,7 +59,7 @@ function loadSection(containerId, storageKey) {
         delBtn.className = "delete-item-btn";
 
         delBtn.addEventListener("click", () => {
-            const updated = getStorage(storageKey).filter((_, i) => !== index);
+            const updated = getStorage(storageKey).filter((_, i) => i !== index);
             localStorage.setItem(storageKey, JSON.stringify(updated));
             loadLibrary();
         });

@@ -406,6 +406,10 @@ button:disabled {
     animation: pulse 1.5s infinite;
 }
 
+textarea.error {
+    outline: 2px solid red;
+}
+
 /* Animations */
 @keyframes pulse {
     0% { transform: scale(1); }

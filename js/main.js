@@ -119,11 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     //RESET DATA
+
     document.getElementById("reset-data-btn").addEventListener("click", () => {
         if (!confirm("Are you sure? This cannot be undone.")) return;
-        ["quotes", "songs", "prompts", "journal"].forEach(key => localStorage.removeItem(key));
+
+        ["quotes", "songs", "prompts", "journal"].forEach(key => {
+            localStorage.removeItem(key);
+        });
+
         loadLibrary();
         loadJournal();
-        showToast("Data Cleared");
+        showToast("All data has been wiped.");
     });
 });

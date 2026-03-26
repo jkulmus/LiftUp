@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("save-song-btn")?.addEventListener("click", () => {
         const title = songTitle.textContent.trim();
         const artist = songArtist.textContent.trim();
-        it (title && artist) {
+        if (title && artist) {
             saveToLibrary("songs", { title, artist });
         }
     });

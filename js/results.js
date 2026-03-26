@@ -1,1 +1,0 @@
-import { getQuote, getPrompts, getSong } from './api.js';

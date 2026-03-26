@@ -1,5 +1,9 @@
 function getStorage(key) {
-    return JSON.parse(localStorage.getItem(key)) || [];
+    try {
+        return JSON.parse(localStorage.getItem(key)) || [];
+    } catch {
+        return [];
+    }
 }
 
 export function loadJournal() {
@@ -43,6 +47,8 @@ export function loadJournal() {
 }
 
 export function saveJournalEntry(mood, text) {
+    if (!mood || !text) return;
+    
     const entries = getStorage("journal");
 
     const newEntry = {

@@ -15,8 +15,7 @@ export function analyzeMood(text) {
         let count = 0;
 
         keywords.forEach(word => {
-            const regex = new RegExp(`\\b${word}\\b`, "i");
-                if (regex.test(input)) count++;
+            if (input.includes(word)) count++;
         });
         
         if (count > maxMatches) {

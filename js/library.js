@@ -43,9 +43,6 @@ function loadSection(containerId, storageKey) {
 
     container.classList.remove("empty");
 
-    const emptyText = container.querySelector(".empty-text");
-    if (emptyText) emptyText.remove();
-
     items.forEach((item, index) => {
         const div = document.createElement("div");
         div.classList.add("library-item");
@@ -53,16 +50,16 @@ function loadSection(containerId, storageKey) {
         const content = document.createElement("span");
         content.classList.add("item-content");
         content.textContent = 
-            typeof item === "string" 
-            ? item 
-            : `${item.title} - ${item.artist}`;
-
+            typeof item === "string"
+                ? item
+                : `${item.title} - ${item.artist}`;
+                
         const delBtn = document.createElement("button");
         delBtn.innerHTML = "&times;";
         delBtn.className = "delete-item-btn";
 
         delBtn.addEventListener("click", () => {
-            const updated = getStorage(storageKey).filter((_, i) => i !== index);
+            const updated = getStorage(storageKey).filter((_, i) => !== index);
             localStorage.setItem(storageKey, JSON.stringify(updated));
             loadLibrary();
         });

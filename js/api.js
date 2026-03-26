@@ -42,18 +42,16 @@ export async function getSong(mood) {
         if (!data.results || data.results.length === 0) throw new Error();
 
         const track = data.results[0];
-
         return {
             title: track.trackName,
             artist: track.artistName,
             previewUrl: track.previewUrl,
             artwork: track.artworkUrl100.replace("100x100", "400x400")
         };
-
     } catch {
         return {
             title: "Chill Beats",
-            artist: "Lo-Fi Artist",
+            artist: "LiftUp Radio",
             previewUrl: "",
             artwork: "https://via.placeholder.com/400"
         };

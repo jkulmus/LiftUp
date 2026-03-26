@@ -10,9 +10,15 @@ function getStorage(key) {
 export function showToast(message) {
     const toast = document.getElementById("toast");
     if (!toast) return;
+
     toast.textContent = message;
     toast.classList.remove("hidden");
-    setTimeout(() => toast.classList.add("hidden"), 2500);
+
+    if (window.toastTimeout) clearTimeout(window.toastTimeout);
+
+    window.toastTimeout = setTimeout(() => {
+        toast.classList.add("hidden");
+    }, 2500);
 }
 
 export function saveToLibrary(key, data) {

@@ -3,27 +3,36 @@ import { loadLibrary, saveToLibrary } from "./library.js";
 import { loadJournal, saveJournalEntry } from "./journal.js";
 import { analyzeMood } from "./mood.js";
 
-let currentMood= "Inspirational";
-
 document.addEventListener("DOMContentLoaded", () => {
+
+    // ELEMENT CACHE
     const supportBtn = document.getElementById("get-support-btn");
     const userInput = document.getElementById("user-input");
     const themeToggle = document.getElementById("theme-toggle");
 
-    // Theme
+    const resultQuote = document.getElementById("result-quote");
+    const journalPrompt = document.getElementById("journal-prompt");
+    const songTitle = document.getElementById("song-title");
+    const songArtist = document.getElementById("song-artist");
+    const albumArt = document.getElementById("album-art");
+    const songPreview = document.getElementById("song-preview");
+
+    let currentMood = "Inspirational";
+
+    // THEME
     if (localStorage.getItem("theme") === "dark") {
         document.body.classList.add("dark");
     }
 
-    themeToggle.addEventListener("click", () => {
+    themeToggle?.addEventListener("click", () => {
         document.body.classList.toggle("dark");
         localStorage.setItem(
             "theme",
             document.body.classList.contains("dark") ? "dark" : "light"
         );
     });
-    
-    // Navigation
+
+    // NAVIGATION
     const views = document.querySelectorAll(".view");
 
     function showView(view) {
@@ -48,45 +57,46 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", () => showView("home"));
     });
 
-    // Support Flow
+    // UPDATE RESULTS
+    function updateResults(quote, prompt, song) {
+        resultQuote.textContent = quote;
+        journalPrompt.textContent = prompt;
+        songTitle.textContent = song.title;
+        songArtist.textContent = song.artist;
+
+        if (albumArt) albumArt.src = song.artwork;
+
+        if (songPreview) {
+            songPreview.src = song.previewUrl || "";
+            songPreview.style.display = song.previewUrl ? "block" : "none";
+        }
+    }
+
+    // SUPPORT FLOW
     supportBtn?.addEventListener("click", async () => {
         const text = userInput.value.trim();
 
         if (!text) {
-            userInput.style.outline = "2px solid red";
+            userInput.classList.add("error");
             return;
         }
 
-        userInput.style.outline = "none";
+        userInput.classList.remove("error");
 
         supportBtn.disabled = true;
-        supportBtn.classList.add("loading");
         supportBtn.innerText = "Finding inspiration...";
 
         try {
-            const mood = analyzeMood(text);
+            currentMood = analyzeMood(text);
 
             const [quote, prompt, song] = await Promise.all([
                 getQuote(),
                 getPrompts(),
-                getSong(mood)
+                getSong(currentMood)
             ]);
 
+            updateResults(quote, prompt, song);
             showView("results");
-
-            document.getElementById("result-quote").innerText = quote;
-            document.getElementById("journal-prompt").innerText = prompt;
-            document.getElementById("song-title").innerText = song.title;
-            document.getElementById("song-artist").innerText = song.artist;
-
-            const art = document.getElementById("album-art");
-            if (art) art.src = song.artwork;
-
-            const preview = document.getElementById("song-preview");
-            if (preview) {
-                preview.src = song.previewUrl || "";
-                preview.style.display = song.previewUrl ? "block" : "none";
-            }
 
             userInput.value = "";
 
@@ -95,81 +105,67 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Something went wrong.");
         } finally {
             supportBtn.disabled = false;
-            supportBtn.classList.remove("loading");
-            supportBtn.innerText = "Show me something uplifting";
+            supportBtn.innerText = "Show me something uplifting"
         }
     });
 
-    // More like this button
-    document.getElementById("more-results-btn").addEventListener("click", async () => {
+    // MORE RESULTS
+    document.getElementById("more-results-btn")?.addEventListener("click", async () => {
         try {
-
             const [quote, prompt, song] = await Promise.all([
                 getQuote(),
                 getPrompts(),
-                getSong(mood)
+                getSong(currentMood)
             ]);
 
-            document.getElementById("result-quote").innerText = quote;
-            document.getElementById("journal-prompt").innerText = prompt;
-            document.getElementById("song-title").innerText = song.title;
-            document.getElementById("song-artist").innerText = song.artist;
-
-            const art = document.getElementById("album-art");
-            if (art) art.src = song.artwork;
-
-            const preview = document.getElementById("song-preview");
-            if (preview) {
-                preview.src = song.previewUrl || "";
-                preview.style.display = song.previewUrl ? "block" : "none";
-            }
+            updateResults(quote, prompt, song);
         } catch (error) {
             console.error(error);
             alert("Could not load more results.");
         }
     });
 
-    // Save buttons (quote, song, prompt)
-    document.getElementById("save-quote-btn").addEventListener("click", () => {
-        const quote = document.getElementById("result-quote").innerText.trim();
-        if (quote) saveToLibrary("quotes", quote);
+    // SAVE BUTTONS
+    document.getElementById("save-quote-btn")?.addEventListener("click", () => {
+        const quote = resultQuote.textContent.trim();
+        if (quote) saveToLibrary("quote", quote);
     });
 
-    document.getElementById("save-song-btn").addEventListener("click", () => {
-        const title = document.getElementById("song-title").innerText.trim();
-        const artist = document.getElementById("song-artist").innerText.trim();
-        if (title && artist) {
+    document.getElementById("save-song-btn")?.addEventListener("click", () => {
+        const title = songTitle.textContent.trim();
+        const artist = songArtist.textContent.trim();
+        it (title && artist) {
             saveToLibrary("songs", { title, artist });
         }
     });
 
-    document.getElementById("save-prompt-btn").addEventListener("click", () => {
-        const prompt = document.getElementById("journal-prompt").innerText.trim();
+    document.getElementById("save-prompt-btn")?.addEventListener("click", () => {
+        const prompt = journalPrompt.textContent.trim();
         if (prompt) saveToLibrary("prompts", prompt);
     });
 
-    // Journal Save
-    document.getElementById("save-journal-btn").addEventListener("click", () => {
+    // JOURNAL
+    document.getElementById("save-journal-btn")?.addEventListener("click", () => {
         const mood = document.getElementById("journal-mood").value;
         const text = document.getElementById("journal-entry").value.trim();
 
-        if (!mood || !text) return;
-
-        saveJournalEntry(mood, text);
+        if (!mood || !text);
         loadJournal();
 
         document.getElementById("journal-entry").value = "";
     });
 
-    // Reset data
-    document.getElementById("reset-data-btn").addEventListener("click", () => {
-        if (!confirm("Are you sure you want to reset all data? This cannot be undone.")) return;
-        localStorage.removeItem("quotes");
-        localStorage.removeItem("songs");
-        localStorage.removeItem("prompts");
-        localStorage.removeItem("journal");
+    //RESET DATA
+    document.getElementById("reset-data-btn")?.addEventListener("click", () => {
+        if (!confirm("Are you sure? This cannot be undone.")) return;
+
+        ["quotes", "songs", "prompts", "journal"].forEach(key => {
+            localStorage.removeItem(key);
+        });
+
         loadLibrary();
         loadJournal();
+
         alert("All data has been reset.");
     });
 });

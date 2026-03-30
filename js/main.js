@@ -93,17 +93,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // SAVE BUTTONS
-    document.getElementById("save-quote-btn").addEventListener("click", () => {
-        saveToLibrary("quotes", resultQuote.textContent.trim());
-    });
 
-    document.getElementById("save-song-btn").addEventListener("click", () => {
-        saveToLibrary("songs", { title: songTitle.textContent.trim(), artist: songArtist.textContent.trim() });
-    });
-
-    document.getElementById("save-prompt-btn").addEventListener("click", () => {
-        saveToLibrary("prompts", journalPrompt.textContent.trim());
-    });
+    const saveQuoteBtn = document.getElementById("save-quote-btn");
+    const saveSongBtn = document. getElementById("save-song-btn");
+    const savePromptBtn = document.getElementById("save-prompt-btn");
+    const saveJournalBtn = document.getElementById("save-journal-btn");
+    const resetDataBtn = document.getElementById("reset-data-btn");
+    const journalMood = document.getElementById("journal-mood");
+    const journalEntry = document.getElementById("journal-entry");
 
     // JOURNAL
     document.getElementById("save-journal-btn").addEventListener("click", () => {

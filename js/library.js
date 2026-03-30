@@ -1,9 +1,14 @@
 function getStorage(key) {
     try {
         return JSON.parse(localStorage.getItem(key)) || [];
-    } catch {
+    } catch (error) {
+        console.error(`Error reading ${key} from storage:`, error);
         return [];
     }
+}
+
+function setStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
 // Toast logic
@@ -14,7 +19,9 @@ export function showToast(message) {
     toast.textContent = message;
     toast.classList.remove("hidden");
 
-    if (window.toastTimeout) clearTimeout(window.toastTimeout);
+    if (window.toastTimeout) {
+        clearTimeout(window.toastTimeout);
+    }
 
     window.toastTimeout = setTimeout(() => {
         toast.classList.add("hidden");
@@ -23,10 +30,11 @@ export function showToast(message) {
 
 export function saveToLibrary(key, data) {
     const items = getStorage(key);
-    const exists = items.some(i =>
-        typeof i === "string"
-            ? i === data
-            : i.title === data.title && i.artist === data.artist
+
+    const exists = items.some(item =>
+        typeof item === "string"
+            ? item === data
+            : item.title === data.title && item.artist === data.artist
     );
 
     if (exists) {
@@ -35,7 +43,7 @@ export function saveToLibrary(key, data) {
     }
 
     items.unshift(data);
-    localStorage.setItem(key, JSON.stringify(items));
+    setStorage(key, items);
     showToast("Saved!");
 }
 
@@ -59,23 +67,30 @@ function loadSection(containerId, storageKey) {
     }
 
     container.classList.remove("empty");
+
     items.forEach((item, index) => {
         const div = document.createElement("div");
         div.classList.add("library-item");
 
         const content = document.createElement("span");
         content.classList.add("item-content");
-        content.textContent = typeof item === "string" ? item : `${item.title} - ${item.artist}`;
-                
+        content.textContent = 
+            typeof item === "string" 
+            ? item 
+            : `${item.title} - ${item.artist}`;
+
         const delBtn = document.createElement("button");
+        delBtn.type = "button";
         delBtn.innerHTML = "&times;";
         delBtn.className = "delete-item-btn";
-        delBtn.onclick = () => {
+        delBtn.setAttribute("aria-label", "Delete saved item");
+
+        delBtn.addEventListener("click", () => {
             const updated = getStorage(storageKey).filter((_, i) => i !== index);
-            localStorage.setItem(storageKey, JSON.stringify(updated));
+            setStorage(storageKey, updated);
             loadLibrary();
             showToast("Removed");
-        };
+        });
 
         div.append(content, delBtn);
         container.appendChild(div);

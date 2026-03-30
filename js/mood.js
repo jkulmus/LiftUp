@@ -11,16 +11,25 @@ export function analyzeMood(text) {
     let bestMatch = null;
     let maxMatches = 0;
 
-    for (const [vibe, keywords] of Object.entries(MOOD_MAP)) {
+    for (const [mood, keywords] of Object.entries(MOOD_MAP)) {
         let count = 0;
 
-        keywords.forEach(word => {
-            if (input.includes(word)) count++;
+        keywords.forEach(keyword => {
+            if (keyword.includes(" ")) {
+                if (input.includes(keyword)) {
+                    count++;
+                }
+            } else {
+                const regex = new RegExp(`\\b${keyword}\\b`, "i");
+                if (regex.test(input)) {
+                    count++;
+                }
+            }
         });
-        
+
         if (count > maxMatches) {
             maxMatches = count;
-            bestMatch = vibe;
+            bestMatch = mood;
         }
     }
 

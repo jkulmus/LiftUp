@@ -3,9 +3,14 @@ import { showToast } from "./library.js";
 function getStorage (key) {
     try {
         return JSON.parse(localStorage.getItem(key)) || [];
-    } catch {
+    } catch (error) {
+        console.error(`Error reading ${key} from storage:`, error);
         return [];
     }
+}
+
+function setStorage(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
 }
 
 export function loadJournal() {
@@ -22,26 +27,46 @@ export function loadJournal() {
     }
 
     container.classList.remove("empty");
+
     entries.forEach(entry => {
         const div = document.createElement("div");
         div.classList.add("journal-entry-item");
-        div.innerHTML = `
-            <div class="journal-entry-date">${entry.date}</div>
-            <div class="journal-entry-mood">${entry.mood}</div>
-            <div class="journal-entry-text">${entry.text}</div>
-        `;
-        container.appendChild(div);
+
+        const dateEl = document.createElement("div");
+        dateEl.classList = "journal-entry-date";
+        dateEl.textContent = entry.date;
+
+        const moodEl = document.createElement("div");
+            moodEl.className = "journal-entry mood";
+            moodEl.textContent = entry.text;
+
+            const textEl = document.createElement("div");
+            textEl.classList = "journal-entry-text";
+            textEl.textContent = entry.text;
+
+            div.append(dateEl, moodEl, textEl);
+            container.appendChild(div);
     });
 }
 
 export function saveJournalEntry(mood, text) {
     if (!mood || !text) return;
+
     const entries = getStorage("journal");
+
     entries.unshift({
         mood,
         text,
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleString(undefined, {
+            dateStyle: "medium",
+            timeStyle: "short"
+        })
     });
-    localStorage.setItem("journal", JSON.stringify(entries));
+
+    if (entries.length > 50) {
+        entries.pop();
+    }
+
+    setStorage("journal", entries);
     showToast("Entry Saved!");
 }

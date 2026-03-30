@@ -5,7 +5,8 @@ export async function getQuote() {
         const res = await fetch(`https://api.adviceslip.com/advice?ts=${Date.now()}`);
         const data = await res.json();
         return data?.slip?.advice || "Keep going!";
-    } catch {
+    } catch (error) {
+        console.error("Quote fetch failed:", error);
         return "Keep going, you're doing better than you think.";
     }
 }
@@ -18,8 +19,9 @@ export async function getPrompts() {
         }
 
         const random = cachedPrompts[Math.floor(Math.random() * cachedPrompts.length)];
-        return random.text;
-    } catch {
+        return random?.text || "Write about something you're grateful for.";
+    } catch (error) {
+        console.error("Prompt fetch failed:", error);
         return "Write about something you're grateful for.";
     }
 }
@@ -36,19 +38,27 @@ export async function getSong(mood) {
     const term = searchTerms[mood] || "lofi chill";
 
     try {
-        const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=1`);
+        const res = await fetch(
+            `https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=song&limit=1`
+        );
         const data = await res.json();
 
-        if (!data.results || data.results.length === 0) throw new Error();
+        if (!data.results || data.results.length === 0) {
+            throw new Error();
+        }
 
         const track = data.results[0];
+
         return {
-            title: track.trackName,
-            artist: track.artistName,
-            previewUrl: track.previewUrl,
-            artwork: track.artworkUrl100.replace("100x100", "400x400")
+            title: track.trackName || "Unknown Title",
+            artist: track.artistName || "Unknown Artist",
+            previewUrl: track.previewUr|| "",
+            artwork: track.artworkUrl100
+                ? track.artworkUrl100.replace("100x100", "400x400")
+                : "https://via.placeholder.com/400"
         };
-    } catch {
+    } catch (error) {
+        console.error("Song fetch failed:", error);
         return {
             title: "Chill Beats",
             artist: "LiftUp Radio",

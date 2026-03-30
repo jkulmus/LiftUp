@@ -107,11 +107,13 @@ body {
     border-radius: 24px;
     box-shadow: var(--shadow);
     border: 1px solid rgba(255, 255, 255, 0.3);
-    transition: transform 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 
-.card:hover { 
-    transform: translateY(-3px);
+.card:hover
+.result-card:hover { 
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(31, 38, 135, 0.18);
 }
 
 /* Typography */
@@ -183,7 +185,7 @@ textarea.error {
     padding: 1rem;
     border-radius: 16px;
     font-weight: 600;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .primary-btn {
@@ -191,8 +193,10 @@ textarea.error {
     color: white;
 }
 
-.primary-btn:hover {
-    background: var(--primary-hover);
+.primary-btn:hover,
+.save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px rgba(77, 182, 172, 0.25);
 }
 
 .secondary-btn {
@@ -214,6 +218,13 @@ textarea.error {
     background: none;
     font-size: 1.2rem;
     color: inherit;
+}
+
+.primary-btn:active,
+.save-btn:active,
+.secondary-btn:active,
+.footer-nav button:active {
+    transform: scale(0.97);
 }
 
 /* Focus Styles */
@@ -238,6 +249,12 @@ audio:focus-visible {
     display: block; 
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
     object-fit: cover;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.music-card:hover, .album-art {
+    transform: scale(1.03);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.16);
 }
 
 .song-title { 
@@ -262,14 +279,14 @@ audio:focus-visible {
     bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.85);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    padding: 12px 25px;
-    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    padding: 10px 14px;
+    border-radius: 999px;
     display: flex;
-    gap: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    gap: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
     z-index: 1000;
     width: auto;
 }
@@ -277,12 +294,18 @@ audio:focus-visible {
 .footer-nav button {
     background: none;
     border: none;
-    font-size: 0.8rem;
-    font-weight: 500;
     color: var(--text-dark);
-    opacity: 0.4;
+    opacity: 0.65;
     cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease;
+    border-radius: 18px;
+    padding: 8px 12px;
+    min-width: 62px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    transition: transform 0.2s ease, background-color 0.2s ease, opacity 0.2s ease, color 0.2s ease;
 }
 
 .footer-nav button.active { 
@@ -349,11 +372,11 @@ audio:focus-visible {
 @keyframes fadeIn {
     from { 
         opacity: 0; 
-        transform: translateY(12px); 
+        transform: translateY(18px) scale(0.98); 
     }
     to { 
         opacity: 1; 
-        transform: translateY(0); 
+        transform: translateY(0) scale(1); 
     }
 }
 
@@ -393,7 +416,7 @@ body.dark select {
 }
 
 body.dark .footer-nav { 
-    background: rgba(30, 41, 59, 0.9); 
+    background: rgba(30, 41, 59, 0.88); 
 }
 
 body.dark .library-item,
@@ -403,6 +426,16 @@ body.dark .journal-entry-item {
 
 body.dark .footer-nav button {
     color: #f8fafc;
+    background: transparent;
+}
+
+body.dark .footer-nav button:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark .footer-nav button.active {
+    color: #8de1d8;
+    background: rgba(77, 182, 172, 0.18);
 }
 
 body.dark .delete-item-btn {
@@ -413,16 +446,25 @@ body.dark .delete-item-btn {
 /* Mobile */
 @media (max-width: 480px) {
     .view {
-        padding: 1rem;
+        padding: 1rem 1rem 100px;
         gap: 1rem;
     }
 
     .footer-nav {
-        gap: 10px;
-        padding: 10px 16px;
+        gap: 4px;
+        padding: 8px 10px;
     }
 
     .footer-nav button {
-        font-size: 0.75rem;
+        min-width: 54px;
+        padding: 7px 10px;
+    }
+
+    .nav-icon {
+        font-size: 1rem;
+    }
+
+    .nav-label {
+        font-size: 0.68rem;
     }
 }
